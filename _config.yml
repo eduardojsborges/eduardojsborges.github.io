@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default" # Currently available options are "default", "air"
-title                    : "Eduardo Borges"
+title                    : "Homepage"
 title_separator          : "-"
 name                     : &name "Eduardo Borges"
 description              : &description "Eduardo Borges's academic portfolio"   # Update this with a general description of your site, this is the default if not overridden by a page
@@ -25,10 +25,10 @@ author:
   # Biographic information
   avatar           : "FinalSQR.png"
   name             : "Eduardo Borges"
-  pronouns         : # example: "she/her"  
-  bio              : "Short biography for the left-hand sidebar"
+  pronouns         : # example: "she/her"
+  bio              : "Robotics and Computer Vision"
   location         : "Coimbra, Portugal"
-  employer         : "Institute of Systems and Robotics - University of Coimbra"
+  employer         : "Institute of Systems and Robotics - UC"
   uri              : # URL
   email            : "eduardo.borges@isr.uc.pt" 
 

@@ -11,3 +11,10 @@ end
 
 gem 'github-pages'
 gem 'connection_pool', '2.5.0'
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# Fix SortedSet missing in Ruby 3.x
+gem 'sorted_set'
+
+# Optional but recommended on Windows to avoid polling for file changes:
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+

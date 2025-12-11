@@ -1,11 +1,10 @@
 ---
 permalink: /
-title: "Eduardo Borges' Personal Website"
+title: "👋🏼 Hi there, I'm Eduardo!"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
 
-# In Construction
-Website currently under development. ⚠️⚠️⚠️
+⚠️ Work In Progress 
