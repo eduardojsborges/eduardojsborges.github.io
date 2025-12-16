@@ -3,9 +3,9 @@ title: "Safer and Trustworthier Navigation of Automated Vehicles"
 collection: publications
 category: conferences
 permalink: /publication/2025-05-27-Safer-and-Trustworthier-Navigation-of-Automated-Vehicles
-excerpt: 'A framework for safer and more trustworthy automated driving that combines robust object detection under adverse weather, risk-aware trajectory planning in camera networks, and template-based natural-language explanations for navigation decisions.'
+excerpt: '📝 A framework for safer and more trustworthy automated driving that combines robust object detection under adverse weather, risk-aware trajectory planning in camera networks, and template-based natural-language explanations for navigation decisions.'
 date: 2025-05-27
-venue: '2025 25th International Conference on Control Systems and Computer Science (CSCS)'
+venue: '25th International Conference on Control Systems and Computer Science (CSCS)'
 # slidesurl: 'https://academicpages.github.io/files/slides1.pdf'
 paperurl: 'https://ieeexplore.ieee.org/abstract/document/11181605'
 bibtexurl: 'https://eduardojsborges.github.io/files/paper_icinco_2024.bib'

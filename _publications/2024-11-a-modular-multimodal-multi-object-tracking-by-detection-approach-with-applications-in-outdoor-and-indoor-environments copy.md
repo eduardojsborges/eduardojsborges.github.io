@@ -3,7 +3,7 @@ title: "A Modular Multimodal Multi-Object Tracking-by-Detection Approach, with A
 collection: publications
 category: conferences
 permalink: /publication/2024-11-a-modular-multimodal-multi-object-tracking-by-detection-approach-with-applications-in-outdoor-and-indoor-environments
-excerpt: 'A modular multimodal tracking-by-detection system for autonomous mobile robots that fuses 3D point-cloud (PointPillars + AB3DMOT) and 2D (YOLOv8) detectors to improve multi-object detection and tracking robustness — validated on KITTI.'
+excerpt: '📝 A modular multimodal tracking-by-detection system for autonomous mobile robots that fuses 3D point-cloud (PointPillars + AB3DMOT) and 2D (YOLOv8) detectors to improve multi-object detection and tracking robustness — validated on KITTI.'
 date: 2024-11-01
 venue: '21st International Conference on Informatics in Control, Automation and Robotics (ICINCO)'
 # slidesurl: 'https://academicpages.github.io/files/slides1.pdf'
