@@ -42,7 +42,7 @@ const nav = [
         <p class="location"><Icon name="pin" size={14} />{profile.location}</p>
         <details class="mobile-menu">
           <summary>Explore <Icon name="menu" /></summary>
-          <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}</nav>
+          <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}<a href={url(profile.cv)}>Download CV ↓</a></nav>
         </details>
         <nav class="desktop-nav" aria-label="Main navigation">
           {nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}><span class="nav-number">{item.number}</span>{item.label}<span class="nav-mark" aria-hidden="true">↗</span></a>)}
