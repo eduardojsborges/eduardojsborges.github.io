@@ -1,0 +1,25 @@
+export const profile = {
+  name: 'Eduardo Borges',
+  role: 'PhD student & researcher',
+  field: 'Robotics & computer vision',
+  institution: 'Institute of Systems and Robotics',
+  university: 'University of Coimbra',
+  institutionUrl: 'https://www.isr.uc.pt/',
+  location: 'Coimbra, Portugal',
+  email: 'eduardo.borges@isr.uc.pt',
+  portrait: '/images/portrait.webp',
+  cv: '/files/Eduardo_Borges_CV.pdf',
+  intro: 'I’m a PhD student at the Institute of Systems and Robotics, University of Coimbra, working on robotic perception for autonomous navigation with an emphasis on multimodal sensing and robust environment understanding.',
+  interests: [
+    { title: 'Robotic perception', description: 'Understanding the environment for autonomous navigation.' },
+    { title: 'Multimodal sensing', description: 'Combining complementary information from cameras and point clouds.' },
+    { title: 'Detection & tracking', description: 'Detecting objects and following their motion in complex environments.' },
+  ],
+  skills: ['Python', 'PyTorch', 'OpenCV', 'ROS', 'Point-cloud processing', 'MATLAB', 'C'],
+  socials: [
+    { label: 'Google Scholar', short: 'Scholar', url: 'https://scholar.google.com/citations?user=B_tPMyoAAAAJ' },
+    { label: 'ORCID', short: 'ORCID', url: 'https://orcid.org/0000-0002-4454-6182' },
+    { label: 'GitHub', short: 'GitHub', url: 'https://github.com/eduardojsborges' },
+    { label: 'LinkedIn', short: 'LinkedIn', url: 'https://www.linkedin.com/in/eduardojsborges/' },
+  ],
+};

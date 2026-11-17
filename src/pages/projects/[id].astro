@@ -1,0 +1,10 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../lib/paths';
+export async function getStaticPaths() { return (await getCollection('projects')).map(entry => ({ params: { id: entry.id }, props: { entry } })); }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const p = entry.data;
+---
+<Layout title={p.title} description={p.summary} active="projects"><header class="page-header detail-header"><a class="back-link" href={url('projects/')}>← All projects</a><span class="eyebrow">{p.role}{p.dates && ` / ${p.dates}`}</span><h1>{p.title}<span class="accent">.</span></h1><p>{p.summary}</p><div class="resource-links">{p.projectUrl && <a href={p.projectUrl.startsWith('/') ? url(p.projectUrl) : p.projectUrl}>Project website ↗</a>}{p.codeUrl && <a href={p.codeUrl.startsWith('/') ? url(p.codeUrl) : p.codeUrl}>Code ↗</a>}</div></header><section class="prose article-content" aria-label="Project description"><Content /></section></Layout>

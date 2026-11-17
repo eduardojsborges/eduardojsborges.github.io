@@ -1,0 +1,96 @@
+---
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import { url } from '../lib/paths';
+import Icon from '../components/Icon.astro';
+interface Props { title?: string; description?: string; active?: string }
+const { title = 'Robotics & computer vision', description = profile.intro, active = 'home' } = Astro.props;
+const nav = [
+  { label: 'About', href: '', id: 'home', number: '01' },
+  { label: 'Publications', href: 'publications/', id: 'publications', number: '02' },
+  { label: 'Projects', href: 'projects/', id: 'projects', number: '03' },
+  { label: 'Experience', href: '#experience', id: 'experience', number: '04' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8f9f6" />
+    <meta property="og:title" content={`${title} — ${profile.name}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <title>{title} — {profile.name}</title>
+    <script is:inline>
+      try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+      <aside class="sidebar" aria-label="Profile and navigation">
+        <a class="identity" href={url()} aria-label="Eduardo Borges home">
+          <img class="portrait" src={url(profile.portrait)} alt="Eduardo Borges" width="88" height="88" fetchpriority="high" />
+          <div><span class="identity-name">{profile.name}<span class="accent">.</span></span><span class="identity-field">{profile.field}</span></div>
+        </a>
+        <p class="sidebar-bio">{profile.role}<br /><a href={profile.institutionUrl}>{profile.institution}</a><br />{profile.university}</p>
+        <p class="location"><Icon name="pin" size={14} />{profile.location}</p>
+        <details class="mobile-menu">
+          <summary>Explore <Icon name="menu" /></summary>
+          <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}</nav>
+        </details>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          {nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}><span class="nav-number">{item.number}</span>{item.label}<span class="nav-mark" aria-hidden="true">↗</span></a>)}
+        </nav>
+        <a class="cv-link" href={url(profile.cv)}>Download CV <Icon name="download" size={16} /></a>
+        <div class="sidebar-bottom">
+          <a class="email-link" href={`mailto:${profile.email}`}><Icon name="mail" size={16} />Get in touch</a>
+          <div class="social-links">{profile.socials.map(social => <a href={social.url} aria-label={social.label}>{social.short}</a>)}</div>
+          <div class="theme-row"><span>A little clarity, by design.</span><button id="theme-toggle" class="icon-button" aria-label="Switch colour theme" hidden><Icon name="sun" size={18} /></button></div>
+        </div>
+      </aside>
+      <div class="main-column">
+        <main id="main" tabindex="-1"><slot /></main>
+        <footer><span>© {new Date().getFullYear()} {profile.name}</span><a href={`mailto:${profile.email}`}>Let’s talk research <Icon size={14} /></a></footer>
+      </div>
+    </div>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('#theme-toggle');
+      const systemDark = matchMedia('(prefers-color-scheme: dark)');
+      function updateLabel() {
+        const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : systemDark.matches;
+        toggle?.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
+      }
+      if (toggle) {
+        toggle.hidden = false;
+        updateLabel();
+        toggle.addEventListener('click', () => {
+          const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : systemDark.matches;
+          const theme = dark ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          try { localStorage.setItem('theme', theme); } catch {}
+          updateLabel();
+        });
+        systemDark.addEventListener('change', updateLabel);
+      }
+      const hero = document.querySelector<HTMLElement>('.hero');
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      const pointer = matchMedia('(hover: hover) and (pointer: fine)');
+      let frame = 0;
+      hero?.addEventListener('pointermove', (event) => {
+        if (motion.matches || !pointer.matches || frame) return;
+        frame = requestAnimationFrame(() => {
+          const rect = hero.getBoundingClientRect();
+          hero.style.setProperty('--spot-x', `${event.clientX - rect.left}px`);
+          hero.style.setProperty('--spot-y', `${event.clientY - rect.top}px`);
+          frame = 0;
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Publication from '../../components/Publication.astro';
+import { profile } from '../../data/profile';
+const publications = (await getCollection('publications')).sort((a,b) => +b.data.date-+a.data.date);
+const years = [...new Set(publications.map(p => p.data.date.getUTCFullYear()))];
+---
+<Layout title="Publications" active="publications">
+  <header class="page-header"><span class="eyebrow">RESEARCH OUTPUT</span><h1>Publications<span class="accent">.</span></h1><p>Work on robotic perception, multimodal sensing, and autonomous navigation.</p><a class="text-link" href={profile.socials[0].url}>Google Scholar ↗</a></header>
+  {years.map(year => <section class="publication-year" aria-labelledby={`year-${year}`}><h2 id={`year-${year}`}>{year}<span>{publications.filter(p => p.data.date.getUTCFullYear() === year).length.toString().padStart(2,'0')} PAPERS</span></h2>{publications.filter(p => p.data.date.getUTCFullYear() === year).map(entry => <Publication entry={entry} expanded />)}</section>)}
+</Layout>

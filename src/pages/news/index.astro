@@ -1,0 +1,8 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../lib/paths';
+const entries = (await getCollection('news')).sort((a,b) => +b.data.date-+a.data.date);
+const news = await Promise.all(entries.map(async entry => ({ entry, ...await render(entry) })));
+---
+<Layout title="Notes & updates"><header class="page-header"><span class="eyebrow">THE RESEARCH LOG</span><h1>Notes & updates<span class="accent">.</span></h1><p>Publications, milestones, and news along the way.</p></header><div class="news-archive">{news.map(({entry, Content}) => <article><time datetime={entry.data.date.toISOString()}>{entry.data.date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' })}</time><h2>{entry.data.link ? <a href={entry.data.link.startsWith('/') ? url(entry.data.link) : entry.data.link}>{entry.data.title} ↗</a> : entry.data.title}</h2><div class="prose"><Content /></div></article>)}</div></Layout>

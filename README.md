@@ -1,0 +1,70 @@
+# Eduardo Borges · Research portfolio
+
+A custom Astro website for robotics and computer vision research. Markdown content, light/dark themes, accessible navigation, and a quiet pointer spotlight. The existing root website is not changed by this repository.
+
+## Add content on GitHub — no local tools needed
+
+1. Open a matching example in `templates/` and copy its entire contents.
+2. Go to `src/content/publications/`, `projects/`, `news/`, `experience/`, or `awards/`.
+3. Choose **Add file → Create new file**. Give it a short, unique lowercase filename, such as `my-new-paper.md`. The filename becomes the publication/project page URL; keep it stable after publishing.
+4. Paste the template and replace the example text. Keep the opening/closing `---` lines. Optional fields begin with `#`; remove that prefix only when supplying a value.
+5. Choose **Commit changes**. A commit to `main` triggers validation and deployment. For review, create a branch and pull request instead.
+6. Check the **Actions** tab. A green run means the new version deployed. A failed build preserves the previous live version: open the failed run, find the named file/field, correct it, and commit again.
+
+### Publications
+
+Required: `title`, `authors` (a list), `date` (`YYYY-MM-DD`), `venue`, and `summary`. Optional: `venueShort`, `paperUrl`, `codeUrl`, `bibtexUrl`, `citation`, `thumbnail`, `thumbnailAlt`. Unavailable links should be omitted, not set to an empty string. Put the full abstract below the closing `---`.
+
+Set `featured: true` to include a paper on the homepage. The three newest featured papers are shown; every paper appears in the year-grouped full listing and gets a detail page automatically. Entries are ordered by date, not filename. Do not add a second copy for the homepage.
+
+### Projects, news, experience, and awards
+
+Projects use `order` (lower first) and `featured` (up to three on the homepage). Dates are optional so undated existing collaborations need no invented dates. News uses a full date, with the five newest entries on the homepage and all entries in the archive. Experience uses `order`; awards are sorted newest year first.
+
+### Upload images, PDFs, or BibTeX
+
+Use **Add file → Upload files** in `public/images/` or `public/files/`. Prefer lowercase filenames without spaces and optimised WebP/JPEG images, ideally below 300 KB for thumbnails.
+
+- Frontmatter paths: `thumbnail: "/images/my-figure.webp"` or `bibtexUrl: "/files/my-paper.bib"`. These are automatically prefixed for GitHub Pages.
+- In any Markdown body: `![Description](/images/my-figure.webp)` and `[Download](/files/my-file.pdf)`. The build prefixes local paths automatically.
+- External links use their complete `https://` address. Do not hardcode `/research-portfolio/` in content.
+
+### Edit the profile or CV
+
+Edit `src/data/profile.ts` to change your biography, role, affiliations, research interests, tools, email, or social links. This is the single central profile file. Keep the surrounding quotes and commas intact. To update the CV without changing links, replace `public/files/Eduardo_Borges_CV.pdf` with a file of the same name.
+
+### Restore an earlier version
+
+For a published mistake, revert the content commit through GitHub (or `git revert <commit>` locally). The resulting commit rebuilds and republishes the previous content. Do not delete the repository or rewrite history.
+
+## Local development
+
+Install Node.js 22.12+ and pnpm 10.23.0, then:
+
+```sh
+pnpm install
+pnpm dev
+```
+
+Open the printed URL, including `/research-portfolio/`. For production checks:
+
+```sh
+pnpm check
+pnpm build
+pnpm test
+pnpm preview
+```
+
+`pnpm build` verifies every built internal link and asset. `pnpm test` temporarily adds a sample paper, checks automatic list/detail/featured placement, verifies invalid metadata fails, removes the sample, and rebuilds cleanly. It must run with an otherwise stable content folder.
+
+## Deployment
+
+The intended public repository is `eduardojsborges/research-portfolio`. In **Settings → Pages**, choose **GitHub Actions** as the source. The included workflow checks pull requests and deploys successful `main` builds to `https://eduardojsborges.github.io/research-portfolio/`.
+
+The Astro `site` and `base` settings are in `astro.config.mjs`; the internal-link checker uses the same repository prefix. Change both if renaming the repository. Moving to the main root address is a separate migration.
+
+## Provenance and maintenance
+
+Original layout and interaction code; no third-party portfolio template. Existing personal content, portrait, presentation figures, CV, and bibliography are migrated from `eduardojsborges/eduardojsborges.github.io` at commit `8473dcbe980595e5f0377e06de9d853c607847e9`. The original template's placeholder CV, sample publications, and stock assets are excluded. The CSCS citation now uses `paper_cscs_2025.bib`.
+
+See `ATTRIBUTION.md` for dependencies and asset licences. No analytics, tracking, remote fonts, CMS, or form backend is included. Review dependency updates through pull requests and run the checks before merging.

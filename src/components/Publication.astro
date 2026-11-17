@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../lib/paths';
+import Icon from './Icon.astro';
+interface Props { entry: CollectionEntry<'publications'>; expanded?: boolean }
+const { entry, expanded = false } = Astro.props;
+const p = entry.data;
+const resource = (value: string) => value.startsWith('/') ? url(value) : value;
+---
+<article class="publication">
+  <div class="publication-meta"><span class="venue-label">{p.venueShort ?? p.venue}</span><span>{p.date.getUTCFullYear()}</span></div>
+  <div class="publication-body">
+    {p.thumbnail && <a class="publication-thumbnail" href={url(`publications/${entry.id}/`)}><img src={url(p.thumbnail)} alt={p.thumbnailAlt ?? ''} width="160" height="110" loading="lazy" /></a>}
+    <div>
+      <h3><a href={url(`publications/${entry.id}/`)}>{p.title}</a></h3>
+      <p class="authors">{p.authors.map((author, i) => <>{i > 0 && ', '}{/Borges/.test(author) ? <strong>{author}</strong> : author}</>)}</p>
+      <p class="publication-summary">{p.summary}</p>
+      <div class="resource-links">
+        {p.paperUrl && <a href={resource(p.paperUrl)}>Paper <Icon size={12} /></a>}
+        {p.codeUrl && <a href={resource(p.codeUrl)}>Code <Icon size={12} /></a>}
+        {p.bibtexUrl && <a href={resource(p.bibtexUrl)}>BibTeX <Icon name="download" size={12} /></a>}
+        <a href={url(`publications/${entry.id}/`)}>Details <Icon size={12} /></a>
+      </div>
+      {expanded && <details class="abstract"><summary>Abstract & citation</summary><p>{entry.body?.replace(/!\[[^\]]*\]\([^)]*\)/g, '')}</p>{p.citation && <blockquote>{p.citation}</blockquote>}</details>}
+    </div>
+  </div>
+</article>
