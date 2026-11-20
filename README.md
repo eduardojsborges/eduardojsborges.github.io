@@ -4,6 +4,8 @@ A custom Astro website for robotics and computer vision research. Markdown conte
 
 ## Add content on GitHub — no local tools needed
 
+See the [complete template and field reference](templates/README.md) for every supported option, its default, and where it appears. Use **Code** view or the pencil editor to see commented optional fields; GitHub's rendered Preview may hide them.
+
 1. Open a matching example in `templates/` and copy its entire contents.
 2. Go to `src/content/publications/`, `projects/`, `news/`, `experience/`, or `awards/`.
 3. Choose **Add file → Create new file**. Give it a short, unique lowercase filename, such as `my-new-paper.md`. The filename becomes the publication/project page URL; keep it stable after publishing.
@@ -13,7 +15,7 @@ A custom Astro website for robotics and computer vision research. Markdown conte
 
 ### Publications
 
-Required: `title`, `authors` (a list), `date` (`YYYY-MM-DD`), `venue`, and `summary`. Optional: `venueShort`, `paperUrl`, `codeUrl`, `bibtexUrl`, `citation`, `thumbnail`, `thumbnailAlt`. Unavailable links should be omitted, not set to an empty string. Put the full abstract below the closing `---`.
+Required: `title`, `authors` (a list), `date` (`YYYY-MM-DD`), `venue`, and `summary`. Optional: `venueShort`, `featured`, `flagship`, `paperUrl`, `codeUrl`, `bibtexUrl`, `citation`, `thumbnail`, `thumbnailAlt`, `thumbnailCaption`. Unavailable links should be omitted, not set to an empty string. Put the full abstract below the closing `---`.
 
 Set `featured: true` to include a paper on the homepage. Set `flagship: true` on at most one paper to give it the prominent research-figure presentation; the build rejects multiple flagships. With a flagship, the two newest other featured papers appear below it in a compact list; without one, the three newest featured papers are listed. Every paper appears in the year-grouped full listing and gets a detail page automatically. Entries are ordered by date, not filename. Do not add a second copy for the homepage. Optional `thumbnailCaption` records the figure's description and source. Use descriptive `thumbnailAlt` text.
 
