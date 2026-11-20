@@ -1,6 +1,6 @@
 # Eduardo Borges · Research portfolio
 
-A custom Astro website for robotics and computer vision research. Markdown content, light/dark themes, accessible navigation, and a quiet pointer spotlight. The existing root website is not changed by this repository.
+A custom Astro website for robotics and computer vision research. Markdown content, light/dark themes, readable typography, and accessible navigation. The existing root website is not changed by this repository.
 
 ## Add content on GitHub — no local tools needed
 
@@ -15,7 +15,7 @@ A custom Astro website for robotics and computer vision research. Markdown conte
 
 Required: `title`, `authors` (a list), `date` (`YYYY-MM-DD`), `venue`, and `summary`. Optional: `venueShort`, `paperUrl`, `codeUrl`, `bibtexUrl`, `citation`, `thumbnail`, `thumbnailAlt`. Unavailable links should be omitted, not set to an empty string. Put the full abstract below the closing `---`.
 
-Set `featured: true` to include a paper on the homepage. The three newest featured papers are shown; every paper appears in the year-grouped full listing and gets a detail page automatically. Entries are ordered by date, not filename. Do not add a second copy for the homepage.
+Set `featured: true` to include a paper on the homepage. Set `flagship: true` on at most one paper to give it the prominent research-figure presentation; the build rejects multiple flagships. With a flagship, the two newest other featured papers appear below it in a compact list; without one, the three newest featured papers are listed. Every paper appears in the year-grouped full listing and gets a detail page automatically. Entries are ordered by date, not filename. Do not add a second copy for the homepage. Optional `thumbnailCaption` records the figure's description and source. Use descriptive `thumbnailAlt` text.
 
 ### Projects, news, experience, and awards
 

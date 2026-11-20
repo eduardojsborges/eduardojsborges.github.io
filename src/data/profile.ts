@@ -9,7 +9,8 @@ export const profile = {
   email: 'eduardo.borges@isr.uc.pt',
   portrait: '/images/portrait.webp',
   cv: '/files/Eduardo_Borges_CV.pdf',
-  intro: 'I’m a PhD student at the Institute of Systems and Robotics, University of Coimbra, working on robotic perception for autonomous navigation with an emphasis on multimodal sensing and robust environment understanding.',
+  headline: 'Robotic perception for autonomous navigation.',
+  intro: 'I develop perception methods combining cameras and LiDAR to improve object detection, tracking, and environment understanding in autonomous mobile robots.',
   interests: [
     { title: 'Robotic perception', description: 'Understanding the environment for autonomous navigation.' },
     { title: 'Multimodal sensing', description: 'Combining complementary information from cameras and point clouds.' },

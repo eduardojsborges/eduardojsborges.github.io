@@ -5,12 +5,11 @@ import { profile } from '../data/profile';
 import { url } from '../lib/paths';
 import Icon from '../components/Icon.astro';
 interface Props { title?: string; description?: string; active?: string }
-const { title = 'Robotics & computer vision', description = profile.intro, active = 'home' } = Astro.props;
+const { title = 'Robotics & computer vision', description = profile.intro, active } = Astro.props;
 const nav = [
-  { label: 'About', href: '', id: 'home', number: '01' },
-  { label: 'Publications', href: 'publications/', id: 'publications', number: '02' },
-  { label: 'Projects', href: 'projects/', id: 'projects', number: '03' },
-  { label: 'Experience', href: '#experience', id: 'experience', number: '04' },
+  { label: 'Home', href: '', id: 'home' },
+  { label: 'Publications', href: 'publications/', id: 'publications' },
+  { label: 'Projects', href: 'projects/', id: 'projects' },
 ];
 ---
 <!doctype html>
@@ -23,6 +22,7 @@ const nav = [
     <meta property="og:title" content={`${title} — ${profile.name}`} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <title>{title} — {profile.name}</title>
@@ -36,37 +36,43 @@ const nav = [
       <aside class="sidebar" aria-label="Profile and navigation">
         <a class="identity" href={url()} aria-label="Eduardo Borges home">
           <img class="portrait" src={url(profile.portrait)} alt="Eduardo Borges" width="88" height="88" fetchpriority="high" />
-          <div><span class="identity-name">{profile.name}<span class="accent">.</span></span><span class="identity-field">{profile.field}</span></div>
+          <div><span class="identity-name">{profile.name}</span><span class="identity-field">{profile.field}</span></div>
         </a>
         <p class="sidebar-bio">{profile.role}<br /><a href={profile.institutionUrl}>{profile.institution}</a><br />{profile.university}</p>
         <p class="location"><Icon name="pin" size={14} />{profile.location}</p>
-        <details class="mobile-menu">
-          <summary>Explore <Icon name="menu" /></summary>
-          <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}<a href={url(profile.cv)}>Download CV ↓</a></nav>
+        <details class="mobile-menu" id="mobile-menu">
+          <summary>Menu <Icon name="menu" /></summary>
+          <div class="mobile-panel">
+            <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}</nav>
+            <a class="cv-link" href={url(profile.cv)}>Download CV <Icon name="download" size={18} /></a>
+            <a class="email-link" href={`mailto:${profile.email}`}>Email</a>
+            <div class="social-links">{profile.socials.map(social => <a href={social.url}>{social.label}</a>)}</div>
+            <button data-theme-toggle class="theme-button" aria-label="Switch colour theme" hidden><Icon name="sun" />Colour theme</button>
+          </div>
         </details>
         <nav class="desktop-nav" aria-label="Main navigation">
-          {nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}><span class="nav-number">{item.number}</span>{item.label}<span class="nav-mark" aria-hidden="true">↗</span></a>)}
+          {nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}
         </nav>
         <a class="cv-link" href={url(profile.cv)}>Download CV <Icon name="download" size={16} /></a>
         <div class="sidebar-bottom">
-          <a class="email-link" href={`mailto:${profile.email}`}><Icon name="mail" size={16} />Get in touch</a>
+          <a class="email-link" href={`mailto:${profile.email}`}><Icon name="mail" size={18} />Email</a>
           <div class="social-links">{profile.socials.map(social => <a href={social.url} aria-label={social.label}>{social.short}</a>)}</div>
-          <div class="theme-row"><span>A little clarity, by design.</span><button id="theme-toggle" class="icon-button" aria-label="Switch colour theme" hidden><Icon name="sun" size={18} /></button></div>
+          <button data-theme-toggle class="theme-button" aria-label="Switch colour theme" hidden><Icon name="sun" />Colour theme</button>
         </div>
       </aside>
       <div class="main-column">
         <main id="main" tabindex="-1"><slot /></main>
-        <footer><span>© {new Date().getFullYear()} {profile.name}</span><a href={`mailto:${profile.email}`}>Let’s talk research <Icon size={14} /></a></footer>
+        <footer><span>© {new Date().getFullYear()} {profile.name}</span><a href={`mailto:${profile.email}`}>Email</a></footer>
       </div>
     </div>
     <script>
-      const toggle = document.querySelector<HTMLButtonElement>('#theme-toggle');
+      const toggles = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
       const systemDark = matchMedia('(prefers-color-scheme: dark)');
       function updateLabel() {
         const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : systemDark.matches;
-        toggle?.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
+        toggles.forEach(toggle => toggle.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`));
       }
-      if (toggle) {
+      toggles.forEach(toggle => {
         toggle.hidden = false;
         updateLabel();
         toggle.addEventListener('click', () => {
@@ -76,20 +82,16 @@ const nav = [
           try { localStorage.setItem('theme', theme); } catch {}
           updateLabel();
         });
-        systemDark.addEventListener('change', updateLabel);
-      }
-      const hero = document.querySelector<HTMLElement>('.hero');
-      const motion = matchMedia('(prefers-reduced-motion: reduce)');
-      const pointer = matchMedia('(hover: hover) and (pointer: fine)');
-      let frame = 0;
-      hero?.addEventListener('pointermove', (event) => {
-        if (motion.matches || !pointer.matches || frame) return;
-        frame = requestAnimationFrame(() => {
-          const rect = hero.getBoundingClientRect();
-          hero.style.setProperty('--spot-x', `${event.clientX - rect.left}px`);
-          hero.style.setProperty('--spot-y', `${event.clientY - rect.top}px`);
-          frame = 0;
-        });
+      });
+      systemDark.addEventListener('change', updateLabel);
+      const menu = document.querySelector<HTMLDetailsElement>('#mobile-menu');
+      const menuTrigger = menu?.querySelector('summary');
+      menu?.addEventListener('keydown', event => {
+        if (event.key === 'Escape') { menu.open = false; menuTrigger?.focus(); }
+      });
+      menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+      document.addEventListener('click', event => {
+        if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
       });
     </script>
   </body>

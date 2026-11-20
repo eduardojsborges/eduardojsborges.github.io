@@ -1,5 +1,9 @@
 # Release verification
 
+## UX refinement — 20 November 2026
+
+The current release has larger typography, simplified navigation, an original ICINCO research figure, and no pointer spotlight. Build, content regression, responsive layout, keyboard, and targeted contrast checks passed. Full evidence and explicit limitations are in [REDESIGN.md](REDESIGN.md). The notes below describe the earlier initial release.
+
 Validated on 17 November 2026.
 
 ## Automated checks

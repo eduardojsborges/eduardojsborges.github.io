@@ -6,6 +6,10 @@ venue: "21st International Conference on Informatics in Control, Automation and 
 venueShort: "ICINCO"
 summary: "A modular multimodal tracking-by-detection system for autonomous mobile robots that fuses 3D point-cloud (PointPillars + AB3DMOT) and 2D (YOLOv8) detectors to improve multi-object detection and tracking robustness — validated on KITTI."
 featured: true
+flagship: true
+thumbnail: "/images/multimodal-detection.webp"
+thumbnailAlt: "RGB images pass through YOLOv8 and LiDAR point clouds through PointPillars; their 2D and 3D detections are projected onto the same street scene."
+thumbnailCaption: "Camera and LiDAR detection pipeline from the ICINCO 2024 paper (Figure 2a)."
 citation: "Borges, E., Garrote, L., Nunes, U. J. (2024). \"A Modular Multimodal Multi-Object Tracking-by-Detection Approach, with Applications in Outdoor and Indoor Environments.\" In Proceedings of the 21st International Conference on Informatics in Control, Automation and Robotics (ICINCO 2024) - Volume 2"
 paperUrl: "https://www.scitepress.org/Papers/2024/130732/130732.pdf"
 bibtexUrl: "/files/paper_icinco_2024.bib"
