@@ -3,7 +3,7 @@ title: "XPro"
 summary: "Explainable probabilistic models for robot perception and autonomous vehicles, in collaboration with the University of Greifswald, Germany."
 role: "Visiting researcher"
 order: 2
-featured: true
+featured: false
 projectUrl: "https://www.isr.uc.pt/projects/xpro"
 ---
 

@@ -2,7 +2,7 @@
 # Copy into src/content/projects/your-project.md.
 # Required fields:
 title: "RA2MOT- Risk-Aware Multimodal Multi-Object Tracking for Robot Navigation in Critical Scenarios"
-summary: "RA2MOT aims to develop a risk-aware, multimodal MOT system for AMRs operating in critical scenarios (e.g., industrial and hospital). The research integrates OD, ReID, and risk estimation into a unified framework that leverages RGB, Depth, and LiDAR data to enhance tracking robustness, especially under occlusions and sensor noise. A novel risk-aware module will assess collision risks based on object trajectories and proximity, enabling safer real-time decision-making. The system will be validated through simulation and real-world deployment, focusing on efficiency, scalability, and adaptability to dynamic environments."
+summary: "RA2MOT aims to develop a risk-aware, multimodal MOT system for AMRs operating in critical scenarios (e.g., industrial and hospital)."
 role: "PhD Student"
 
 # Optional ordering and homepage settings:
@@ -21,6 +21,7 @@ projectUrl: "https://sciproj.ptcris.pt/104171DFA"
 # thumbnail: "/images/your-project.webp"
 # thumbnailAlt: "Description of the project image"
 ---
+RA2MOT aims to develop a risk-aware, multimodal MOT system for AMRs operating in critical scenarios (e.g., industrial and hospital). The research integrates OD, ReID, and risk estimation into a unified framework that leverages RGB, Depth, and LiDAR data to enhance tracking robustness, especially under occlusions and sensor noise. A novel risk-aware module will assess collision risks based on object trajectories and proximity, enabling safer real-time decision-making. The system will be validated through simulation and real-world deployment, focusing on efficiency, scalability, and adaptability to dynamic environments.
 
 PhD research project. Fully funded for 4 years.
 
