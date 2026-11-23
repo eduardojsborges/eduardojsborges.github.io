@@ -262,15 +262,6 @@
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-
-  /* Capture only the page content so the navigation and cursor stay live. */
-  :root { view-transition-name: none; }
-  #main { view-transition-name: portfolio-content; }
-  ::view-transition-group(portfolio-content) { animation: none; }
-  ::view-transition-old(portfolio-content) { animation: 180ms ease both content-fade-out; }
-  ::view-transition-new(portfolio-content) { animation: 180ms ease both content-fade-in; }
-
   @supports selector(details::details-content) and (transition-behavior: allow-discrete) and (interactivity: inert) {
     @supports (interpolate-size: allow-keywords) {
       :is(.abstract, .citation-disclosure)::details-content {
@@ -311,4 +302,3 @@
 }
 
 @keyframes content-fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes content-fade-out { from { opacity: 1; } to { opacity: 0; } }
