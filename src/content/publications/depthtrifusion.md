@@ -26,6 +26,7 @@ bibtex: |
     address="Cham",
     pages="580--593",
     isbn="978-3-032-30156-7"
+    }
 paperUrl: "https://doi.org/10.1007/978-3-032-30156-7_43"
 ---
 
