@@ -33,7 +33,7 @@
     --dark-glow-opacity: .07;
 
     /* SHARED / PRINT */
-    --glow-size: 600px;            /* Spotlight diameter */
+    --glow-size: 500px;            /* Spotlight diameter (250px radius) */
     --figure-background: #ffffff;   /* White backing for original paper figures */
     --menu-shadow: #00000020;       /* Last two hex digits control transparency */
     --print-background: #ffffff;

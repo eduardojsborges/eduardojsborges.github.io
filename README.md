@@ -45,7 +45,7 @@ For example, `--dark-background` changes the main dark page surface, `--dark-sid
 
 Each new tab session starts in dark mode, independently of the operating system and any old saved preference. The theme toggle remembers your choice through navigation and refreshes within that tab using `sessionStorage`. If browser storage is unavailable, each page starts dark. Original images and the favicon remain their own assets. Desktop portrait width is 75% of the sidebar width; mobile uses the compact header portrait. Sizing rules remain in `src/styles/global.css`.
 
-The soft cursor spotlight uses `--dark-glow-color` / `--light-glow-color` (hex codes), `--dark-glow-opacity` / `--light-glow-opacity` (0–1, initially `.07` / `.03`), and `--glow-size` (diameter, initially `600px`). Set both opacity values to `0` to hide it. It follows mouse movement behind content and fades away on pointer exit or window blur. Touch input, reduced-motion preferences, and printing disable the effect automatically.
+The soft cursor spotlight uses `--dark-glow-color` / `--light-glow-color` (hex codes), `--dark-glow-opacity` / `--light-glow-opacity` (0–1, initially `.07` / `.03`), and `--glow-size` (diameter, initially `500px`, giving a `250px` radius). Set both opacity values to `0` to hide it. It follows mouse movement behind content with gentle inertia (110ms time constant), stops animating once settled, and fades away on pointer exit or window blur. Touch input, reduced-motion preferences, and printing disable the effect automatically.
 
 ### Restore an earlier version
 
