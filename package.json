@@ -9,7 +9,7 @@
     "check": "astro check",
     "build": "astro build && node scripts/check-links.mjs",
     "preview": "astro preview --host 127.0.0.1",
-    "test": "node scripts/test-content.mjs"
+    "test": "node --test scripts/test-citations.mjs && node scripts/test-content.mjs"
   },
   "dependencies": {
     "astro": "^5.16.0",

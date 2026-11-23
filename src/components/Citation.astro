@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { publicationCitations } from '../lib/citations.mjs';
+interface Props { entry: CollectionEntry<'publications'>; idPrefix: string; headingLevel?: 3 | 4 }
+const { entry, idPrefix, headingLevel = 4 } = Astro.props;
+const citations = publicationCitations(entry);
+const Heading = `h${headingLevel}`;
+const formats = [
+  { id: 'plain', label: 'Plain text', value: citations.plain },
+  { id: 'bibtex', label: 'BibTeX', value: citations.bibtex },
+];
+---
+<div class="citation-viewer" data-citation-viewer>
+  <div class="citation-tabs" role="tablist" aria-label="Citation format" hidden>
+    {formats.map((format, index) => <button type="button" role="tab" id={`${idPrefix}-tab-${format.id}`} aria-controls={`${idPrefix}-panel-${format.id}`} aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? 0 : -1} data-format={format.id}>{format.label}</button>)}
+  </div>
+  {formats.map(format => <section class="citation-panel" id={`${idPrefix}-panel-${format.id}`} data-citation-panel={format.id} aria-label={`${format.label} citation`}>
+    <div class="citation-panel-heading"><Heading>{format.label}</Heading><button type="button" class="copy-citation" data-copy-citation data-copy-label={format.label} hidden>Copy {format.label === 'BibTeX' ? 'BibTeX' : 'citation'}</button></div>
+    {format.id === 'bibtex' ? <pre class="bibtex-code" tabindex="0" aria-label="BibTeX citation text"><code data-citation-value>{format.value}</code></pre> : <p class="citation-text" data-citation-value>{format.value}</p>}
+    {format.id === 'bibtex' && citations.generatedBibtex && <p class="citation-note">Generated from this publication’s metadata.</p>}
+  </section>)}
+  <p class="citation-status" aria-live="polite" aria-atomic="true" data-copy-status></p>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-citation-viewer]').forEach(viewer => {
+    const tabs = Array.from(viewer.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(viewer.querySelectorAll<HTMLElement>('[data-citation-panel]'));
+    const tablist = viewer.querySelector<HTMLElement>('[role="tablist"]');
+    function selectTab(index: number, focus = false) {
+      tabs.forEach((tab, i) => { tab.setAttribute('aria-selected', String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
+      panels.forEach((panel, i) => { panel.hidden = i !== index; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', tabs[i].id); panel.removeAttribute('aria-label'); panel.tabIndex = 0; });
+      if (focus) tabs[index].focus();
+    }
+    if (tablist) tablist.hidden = false;
+    selectTab(0);
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(index));
+      tab.addEventListener('keydown', event => {
+        let next = index;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault(); selectTab(next, true);
+      });
+    });
+    viewer.querySelectorAll<HTMLButtonElement>('[data-copy-citation]').forEach(button => {
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        const value = button.closest('[data-citation-panel]')?.querySelector('[data-citation-value]')?.textContent ?? '';
+        const status = viewer.querySelector<HTMLElement>('[data-copy-status]');
+        try {
+          if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(value);
+          if (status) status.textContent = `${button.dataset.copyLabel} citation copied.`;
+        } catch {
+          if (status) status.textContent = 'Copy is unavailable in this browser. Select the citation text and copy it manually.';
+        }
+      });
+    });
+  });
+</script>

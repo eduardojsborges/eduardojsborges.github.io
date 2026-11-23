@@ -15,7 +15,9 @@ See the [complete template and field reference](templates/README.md) for every s
 
 ### Publications
 
-Required: `title`, `authors` (a list), `date` (`YYYY-MM-DD`), `venue`, and `summary`. Optional: `venueShort`, `featured`, `flagship`, `paperUrl`, `codeUrl`, `bibtexUrl`, `citation`, `thumbnail`, `thumbnailAlt`, `thumbnailCaption`. Unavailable links should be omitted, not set to an empty string. Put the full abstract below the closing `---`.
+Required: `title`, `authors` (a list), `date` (`YYYY-MM-DD`), `venue`, and `summary`. Optional: `venueShort`, `featured`, `flagship`, `paperUrl`, `codeUrl`, `citation`, `bibtex`, `bibtexUrl` (legacy local-file import), `thumbnail`, `thumbnailAlt`, `thumbnailCaption`. Unavailable links should be omitted, not set to an empty string. Put the full abstract below the closing `---`; Markdown and bare URL links work in both the expandable list abstract and detail page.
+
+Each paper offers **Plain text** and **BibTeX** citation formats with copy buttons. Use `citation: >-` for prose and `bibtex: |` for a multiline BibTeX entry; see the [citation example](templates/README.md#plain-text-and-bibtex-citations). Existing BibTeX in `citation` and local `.bib` files still work. Missing formats are generated from known metadata, and generated BibTeX is identified. There are no BibTeX download links in the interface.
 
 Set `featured: true` to include a paper on the homepage. Set `flagship: true` on at most one paper to give it the prominent research-figure presentation; the build rejects multiple flagships. With a flagship, the two newest other featured papers appear below it in a compact list; without one, the three newest featured papers are listed. Every paper appears in the year-grouped full listing and gets a detail page automatically. Entries are ordered by date, not filename. Do not add a second copy for the homepage. Optional `thumbnailCaption` records the figure's description and source. Use descriptive `thumbnailAlt` text.
 
@@ -27,7 +29,7 @@ Projects use `order` (lower first) and `featured` (up to three on the homepage).
 
 Use **Add file → Upload files** in `public/images/` or `public/files/`. Prefer lowercase filenames without spaces and optimised WebP/JPEG images, ideally below 300 KB for thumbnails.
 
-- Frontmatter paths: `thumbnail: "/images/my-figure.webp"` or `bibtexUrl: "/files/my-paper.bib"`. These are automatically prefixed for GitHub Pages.
+- Frontmatter image path: `thumbnail: "/images/my-figure.webp"`. File links inside Markdown bodies are also automatically prefixed for GitHub Pages. For citations, use inline `bibtex: |` rather than uploading a new `.bib` file.
 - In any Markdown body: `![Description](/images/my-figure.webp)` and `[Download](/files/my-file.pdf)`. The build prefixes local paths automatically.
 - External links use their complete `https://` address. Do not hardcode `/research-portfolio/` in content.
 

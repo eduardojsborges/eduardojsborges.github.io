@@ -17,8 +17,20 @@ flagship: false
 # venueShort: "CONFERENCE" # Short venue in lists; full venue stays on the detail page.
 # paperUrl: "https://example.com/paper"
 # codeUrl: "https://github.com/your-account/project"
+# Citation formats. Remove the leading '# ' from EVERY line you enable.
+# citation: >-
+#   E. Borges and Coauthor Name, "Your paper title," in Conference Name, 2026.
+# bibtex: |
+#   @inproceedings{yourpaper2026,
+#     author = {Borges, Eduardo and Coauthor, Name},
+#     title = {Your paper title},
+#     booktitle = {Full conference name},
+#     year = {2026},
+#   }
+# Keep BibTeX indented under 'bibtex: |'; do not paste it into a quoted string.
+# Both formats are generated from metadata when not supplied.
+# Legacy compatibility only: a local .bib file can still supply the inline BibTeX.
 # bibtexUrl: "/files/your-paper.bib"
-# citation: "Your complete citation."
 
 # Optional image — shown ONLY on the homepage flagship presentation.
 # For an image inside the detail page, use Markdown below instead.

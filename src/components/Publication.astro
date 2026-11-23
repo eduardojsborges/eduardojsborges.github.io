@@ -1,10 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import Citation from './Citation.astro';
 import { url } from '../lib/paths';
 interface Props { entry: CollectionEntry<'publications'>; expanded?: boolean; featured?: boolean; compact?: boolean }
 const { entry, expanded = false, featured = false, compact = false } = Astro.props;
 const p = entry.data;
 const resource = (value: string) => value.startsWith('/') ? url(value) : value;
+const Content = expanded ? (await render(entry)).Content : undefined;
 ---
 <article class:list={['publication', { 'publication-featured': featured, 'publication-compact': compact }]}>
   {featured && p.thumbnail && <figure class="featured-figure">
@@ -18,8 +21,8 @@ const resource = (value: string) => value.startsWith('/') ? url(value) : value;
   <div class="resource-links">
     {p.paperUrl && <a href={resource(p.paperUrl)}>Read paper</a>}
     {p.codeUrl && <a href={resource(p.codeUrl)}>Code</a>}
-    {p.bibtexUrl && <a href={resource(p.bibtexUrl)}>BibTeX</a>}
     {!featured && !compact && <a href={url(`publications/${entry.id}/`)}>Publication details</a>}
   </div>
-  {expanded && <details class="abstract"><summary>Abstract & citation</summary><p>{entry.body?.replace(/!\[[^\]]*\]\([^)]*\)/g, '')}</p>{p.citation && <blockquote>{p.citation}</blockquote>}</details>}
+  {Content && <details class="abstract"><summary>Abstract</summary><div class="prose abstract-body"><Content /></div></details>}
+  <details class="citation-disclosure"><summary>Cite this paper</summary><Citation entry={entry} idPrefix={`list-${entry.id}`} /></details>
 </article>

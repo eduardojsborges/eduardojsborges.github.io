@@ -19,7 +19,7 @@ omitted rather than writing empty links.
 | [award.md](award.md) | `src/content/awards/your-award.md` |
 | [profile.ts](profile.ts) | Edit existing `src/data/profile.ts`; this is TypeScript, not Markdown |
 
-## Publications — all 15 fields
+## Publications — all 16 fields
 
 | Field | Required / default | Effect |
 | --- | --- | --- |
@@ -33,16 +33,53 @@ omitted rather than writing empty links.
 | `flagship` | Optional boolean; `false` | Prominent homepage entry. At most one; shown even if `featured` is false. |
 | `paperUrl` | Optional URL | Read paper link. |
 | `codeUrl` | Optional URL | Code link. |
-| `bibtexUrl` | Optional URL or local file path | BibTeX link. |
-| `citation` | Optional text | Citation on the detail page and in the expandable listing disclosure. |
+| `citation` | Optional text | Plain-text citation in the citation viewer. Older BibTeX pasted into this field is detected automatically. |
+| `bibtex` | Optional multiline text | BibTeX entry in the citation viewer; write it as a YAML literal block with `bibtex: |`. |
+| `bibtexUrl` | Optional legacy field | A local `/files/paper.bib` is read at build time into the viewer. No download link is displayed; remote files are not fetched. Prefer `bibtex`. |
 | `thumbnail` | Optional local image path | Image on the homepage **flagship only**. Not automatically shown in the full list or detail page. |
 | `thumbnailAlt` | Optional text; supply with an informative thumbnail | Description for visitors who cannot see the figure. |
 | `thumbnailCaption` | Optional text | Caption below the flagship image, including its source when appropriate. |
 
 **Below the closing `---`:** write the full abstract. It appears in the detail
 page and expandable full-list abstract. Use Markdown images for figures inside
-the detail page. The disclosure currently displays abstract text without images;
-advanced Markdown formatting is rendered only on the detail page.
+the detail page. Both locations render Markdown formatting, images, explicit
+links, and automatic clickable links for bare URLs.
+
+### Plain-text and BibTeX citations
+
+Every publication has a **Cite this paper** viewer on Home/Publications and on
+its detail page. With JavaScript, choose **Plain text** or **BibTeX** and copy the
+selected format. Without JavaScript, both formats remain visible and selectable.
+BibTeX is shown as indented, monospaced text with a line per field; commas inside
+nested braces or quoted values do not create spurious line breaks.
+
+Supply either format or both:
+
+```yaml
+citation: >-
+  E. Borges and A. Researcher, "Paper title," in Conference Name, 2026.
+bibtex: |
+  @inproceedings{borges2026paper,
+    author = {Borges, Eduardo and Researcher, A.},
+    title = {Paper title},
+    booktitle = {Conference Name},
+    year = {2026},
+  }
+```
+
+`>-` joins wrapped prose lines into a paragraph; `|` preserves literal BibTeX
+line breaks. Keep all entry lines indented under `bibtex: |`.
+
+Existing BibTeX in `citation` continues working, including older quoted YAML
+that folded its line breaks. For BibTeX, explicit `bibtex` takes precedence,
+then BibTeX found in `citation`, then a legacy local `.bib` file. Otherwise a
+minimal entry is generated from title, authors, venue, year, and the paper URL/DOI
+when available; a note identifies this fallback. No unknown pages, publishers,
+or other publication metadata are invented. Supplied plain text is preserved;
+otherwise the viewer generates readable prose from the known metadata.
+
+The old `.bib` files can remain for compatibility. They are no longer linked as
+downloads. Adding a new citation does not require uploading a separate file.
 
 With a flagship, two other featured papers appear below it; without one, three
 featured papers appear. A flagship without a thumbnail still has a text presentation.

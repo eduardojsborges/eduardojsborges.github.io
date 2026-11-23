@@ -9,7 +9,7 @@ const publications = defineCollection({
     title: z.string().min(1), authors: z.array(z.string().min(1)).min(1), date: z.coerce.date(),
     venue: z.string().min(1), venueShort: z.string().optional(), summary: z.string().min(1),
     featured: z.boolean().default(false), flagship: z.boolean().default(false), paperUrl: link.optional(), codeUrl: link.optional(),
-    bibtexUrl: link.optional(), citation: z.string().optional(), thumbnailCaption: z.string().optional(), ...image,
+    bibtexUrl: link.optional(), citation: z.string().optional(), bibtex: z.string().optional(), thumbnailCaption: z.string().optional(), ...image,
   }),
 });
 const projects = defineCollection({
