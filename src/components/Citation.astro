@@ -26,9 +26,23 @@ const formats = [
     const tabs = Array.from(viewer.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
     const panels = Array.from(viewer.querySelectorAll<HTMLElement>('[data-citation-panel]'));
     const tablist = viewer.querySelector<HTMLElement>('[role="tablist"]');
+    let selectedIndex: number | undefined;
     function selectTab(index: number, focus = false) {
+      const changedFormat = selectedIndex !== undefined && index !== selectedIndex;
+      if (index === selectedIndex) {
+        if (focus) tabs[index].focus();
+        return;
+      }
+      selectedIndex = index;
       tabs.forEach((tab, i) => { tab.setAttribute('aria-selected', String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
-      panels.forEach((panel, i) => { panel.hidden = i !== index; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', tabs[i].id); panel.removeAttribute('aria-label'); panel.tabIndex = 0; });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+        panel.toggleAttribute('data-citation-enter', changedFormat && i === index);
+        panel.setAttribute('role', 'tabpanel');
+        panel.setAttribute('aria-labelledby', tabs[i].id);
+        panel.removeAttribute('aria-label');
+        panel.tabIndex = 0;
+      });
       if (focus) tabs[index].focus();
     }
     if (tablist) tablist.hidden = false;
