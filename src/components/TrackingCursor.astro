@@ -2,60 +2,70 @@
   <div class="tracking-cursor__brackets">
     <span></span><span></span><span></span><span></span>
   </div>
+  <span class="tracking-cursor__dot"></span>
 </div>
 
 <script>
   const reticle = document.querySelector<HTMLElement>('.tracking-cursor');
+  const dot = reticle?.querySelector<HTMLElement>('.tracking-cursor__dot');
+  const brackets = reticle?.querySelector<HTMLElement>('.tracking-cursor__brackets');
   const desktopMouse = matchMedia('screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none)');
   const root = document.documentElement;
   const interactive = 'a[href], button, summary, [role="button"], [role="link"]';
-  const nativeControls = 'input, textarea, select, label, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="slider"], [role="spinbutton"], [role="scrollbar"], :disabled, [aria-disabled="true"], [draggable="true"]';
-  const selectable = 'p, h1, h2, h3, h4, h5, h6, li, dt, dd, blockquote, figcaption, pre, code, time, td, th, [data-native-cursor]';
+  const followFactor = .18;
+  const frameDuration = 1000 / 60;
 
-  if (reticle && CSS.supports('cursor', 'none')) {
+  if (reticle && dot && brackets && CSS.supports('cursor', 'none')) {
     const marker = reticle;
+    const center = dot;
+    const corners = brackets;
     let point: { x: number; y: number } | null = null;
+    let bracketX = 0;
+    let bracketY = 0;
+    let frame = 0;
+    let lastFrameTime = 0;
 
-    function hide() {
+    function reset() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      point = null;
       root.removeAttribute('data-tracking-cursor');
       marker.hidden = true;
       marker.removeAttribute('data-expanded');
     }
 
-    function reset() {
-      point = null;
-      hide();
+    function place(element: HTMLElement, x: number, y: number) {
+      element.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
     }
 
-    function render(target: Element | null) {
-      if (!point || !target || !desktopMouse.matches || target.closest(nativeControls)) {
-        hide();
-        return;
-      }
+    function follow(time: number) {
+      frame = 0;
+      if (!point) return;
 
-      const clickable = Boolean(target.closest(interactive));
-      const containsText = Array.from(target.childNodes).some(node =>
-        node.nodeType === Node.TEXT_NODE && node.textContent?.trim()
-      );
-      if (!clickable && (target.closest(selectable) || containsText)) {
-        hide();
-        return;
-      }
+      // Apply the same easing at different display refresh rates.
+      const elapsed = Math.min(Math.max(time - lastFrameTime, 0), 50);
+      const factor = 1 - (1 - followFactor) ** (elapsed / frameDuration);
+      lastFrameTime = time;
+      bracketX += (point.x - bracketX) * factor;
+      bracketY += (point.y - bracketY) * factor;
 
-      marker.style.transform = `translate3d(${point.x}px, ${point.y}px, 0)`;
-      // Keep the native cursor if the component stylesheet did not load.
-      const wasHidden = marker.hidden;
-      marker.hidden = false;
-      if (wasHidden && getComputedStyle(marker).position !== 'fixed') {
-        hide();
-        return;
+      if (Math.hypot(point.x - bracketX, point.y - bracketY) < .35) {
+        bracketX = point.x;
+        bracketY = point.y;
+      } else {
+        frame = requestAnimationFrame(follow);
       }
-      marker.toggleAttribute('data-expanded', clickable);
-      root.setAttribute('data-tracking-cursor', '');
+      place(corners, bracketX, bracketY);
+    }
+
+    function updateHover(target: Element | null) {
+      const control = target?.closest(interactive);
+      const disabled = control?.closest(':disabled, [aria-disabled="true"]');
+      marker.toggleAttribute('data-expanded', Boolean(control && !disabled));
     }
 
     function track(event: PointerEvent) {
-      if (event.pointerType !== 'mouse' || event.buttons || !desktopMouse.matches ||
+      if (event.pointerType !== 'mouse' || !desktopMouse.matches ||
           event.clientX < 0 || event.clientY < 0 ||
           event.clientX >= root.clientWidth || event.clientY >= root.clientHeight) {
         reset();
@@ -63,16 +73,35 @@
       }
 
       point = { x: event.clientX, y: event.clientY };
-      render(event.target instanceof Element ? event.target : null);
+      place(center, point.x, point.y);
+      updateHover(event.target instanceof Element ? event.target : null);
+
+      if (marker.hidden) {
+        bracketX = point.x;
+        bracketY = point.y;
+        place(corners, bracketX, bracketY);
+        marker.hidden = false;
+        if (getComputedStyle(marker).position !== 'fixed') {
+          reset();
+          return;
+        }
+        root.setAttribute('data-tracking-cursor', '');
+      }
+
+      if (!frame && (bracketX !== point.x || bracketY !== point.y)) {
+        lastFrameTime = performance.now();
+        frame = requestAnimationFrame(follow);
+      }
     }
 
     function refreshTarget() {
-      if (point) render(document.elementFromPoint(point.x, point.y));
+      if (point) updateHover(document.elementFromPoint(point.x, point.y));
     }
 
+    document.addEventListener('pointerover', track, { passive: true });
     document.addEventListener('pointermove', track, { passive: true });
+    document.addEventListener('pointerdown', track, { passive: true });
     document.addEventListener('pointerup', track, { passive: true });
-    document.addEventListener('pointerdown', reset, { passive: true });
     document.addEventListener('pointercancel', reset);
     root.addEventListener('pointerleave', reset);
     document.addEventListener('scroll', refreshTarget, { capture: true, passive: true });
@@ -91,24 +120,25 @@
     left: 0;
     z-index: 101;
     pointer-events: none;
-    color: var(--reticle-color);
+    color: var(--accent);
   }
 
-  .tracking-cursor::after {
-    content: '';
+  .tracking-cursor__dot {
     position: absolute;
-    width: 3px;
-    height: 3px;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: currentColor;
-    transform: translate(-50%, -50%);
   }
 
   .tracking-cursor__brackets {
     position: absolute;
+    top: 0;
+    left: 0;
     width: var(--reticle-size);
     height: var(--reticle-size);
-    transform: translate(-50%, -50%);
     transition: width var(--reticle-transition) ease-out, height var(--reticle-transition) ease-out;
   }
 

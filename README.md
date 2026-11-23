@@ -50,9 +50,9 @@ Linked content entries (publications, projects, and news) receive a subtle accen
 
 ### Customize the tracking cursor
 
-Edit `--dark-reticle-color` and `--light-reticle-color` in [src/styles/theme.css](src/styles/theme.css). `--reticle-size` sets the normal box size, `--reticle-hover-size` sets its size over links and buttons, and `--reticle-transition` sets the expansion duration. Set the duration to `0ms` for instant expansion.
+The reticle matches the current theme's highlight colour (`--dark-accent` or `--light-accent`). In [src/styles/theme.css](src/styles/theme.css), `--reticle-size` sets the normal bracket size, `--reticle-hover-size` sets the size over links and buttons, and `--reticle-transition` sets the expansion duration. Set the duration to `0ms` for instant expansion.
 
-The reticle uses the native pointer over selectable text, form fields, and while dragging. Publication and project entries use the expanded reticle on their existing links and controls. Touch, reduced motion, and forced colours also use the native pointer. To disable the reticle sitewide, remove `<TrackingCursor />` and its import from `src/layouts/Layout.astro`.
+The dot follows the pointer immediately while the brackets ease toward it and stop animating at rest. The reticle stays visible over text and throughout clicks. Text selection, editing, and click behavior work normally. Publication and project entries use the expanded reticle on their existing links and controls. Touch, reduced motion, and forced colours keep the native pointer. To disable the reticle sitewide, remove `<TrackingCursor />` and its import from `src/layouts/Layout.astro`.
 
 ### Restore an earlier version
 

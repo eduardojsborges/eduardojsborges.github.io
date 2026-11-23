@@ -16,7 +16,6 @@
     --light-control: #85858e;        /* Button borders and link underlines */
     --light-accent: #315cc9;         /* Links, active navigation, focus */
     --light-accent-soft: #e9eefc;    /* Selected/hover background */
-    --light-reticle-color: #22685c; /* Tracking cursor on light backgrounds */
 
     /* DARK MODE — neutral surfaces; colour is confined to accents */
     --dark-background: #181818;
@@ -28,7 +27,6 @@
     --dark-control: #898989;
     --dark-accent: #9ab6ff;
     --dark-accent-soft: #272f46;
-    --dark-reticle-color: #a1e4d5;  /* Tracking cursor on dark backgrounds */
 
     /* SHARED / PRINT */
     --panel-highlight-strength: 6%; /* Accent tint on hovered content panels */
@@ -56,7 +54,6 @@
     --control: var(--light-control);
     --accent: var(--light-accent);
     --accent-soft: var(--light-accent-soft);
-    --reticle-color: var(--light-reticle-color);
   }
 
   :root:not([data-theme="light"]) {
@@ -70,7 +67,6 @@
     --control: var(--dark-control);
     --accent: var(--dark-accent);
     --accent-soft: var(--dark-accent-soft);
-    --reticle-color: var(--dark-reticle-color);
   }
 
   @media print {
