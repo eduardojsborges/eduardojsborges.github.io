@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
+import '../styles/theme.css';
 import { profile } from '../data/profile';
 import { url } from '../lib/paths';
 import Icon from '../components/Icon.astro';
@@ -18,7 +19,7 @@ const nav = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f8f9f6" />
+    <meta name="theme-color" content="white" />
     <meta property="og:title" content={`${title} — ${profile.name}`} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -35,7 +36,7 @@ const nav = [
     <div class="site-shell">
       <aside class="sidebar" aria-label="Profile and navigation">
         <a class="identity" href={url()} aria-label="Eduardo Borges home">
-          <img class="portrait" src={url(profile.portrait)} alt="Eduardo Borges" width="88" height="88" fetchpriority="high" />
+          <img class="portrait" src={url(profile.portrait)} alt="Eduardo Borges" width="648" height="648" fetchpriority="high" />
           <div><span class="identity-name">{profile.name}</span><span class="identity-field">{profile.field}</span></div>
         </a>
         <p class="sidebar-bio">{profile.role}<br /><a href={profile.institutionUrl}>{profile.institution}</a><br />{profile.university}</p>
@@ -71,6 +72,8 @@ const nav = [
       function updateLabel() {
         const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : systemDark.matches;
         toggles.forEach(toggle => toggle.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`));
+        const background = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', background);
       }
       toggles.forEach(toggle => {
         toggle.hidden = false;

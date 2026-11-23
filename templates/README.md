@@ -160,8 +160,9 @@ Edit the existing [profile configuration](../src/data/profile.ts), using
 | `socials` | Array of `{ label, short, url }` objects. `label` is the full/accessible name; `short` is the desktop sidebar text. Keep Scholar first because the Publications page currently reads `socials[0].url`. |
 
 Section order, section titles, button labels, and the contact sentence are in
-[the homepage layout](../src/pages/index.astro). Colours, spacing, and typography
-are in [the stylesheet](../src/styles/global.css). Those are layout/code edits,
+[the homepage layout](../src/pages/index.astro). Colour hex codes are in the
+[theme palette](../src/styles/theme.css); edit its Light/Dark sections independently.
+Spacing, portrait sizing, and typography are in [the stylesheet](../src/styles/global.css). Those are layout/code edits,
 not Markdown options. Navigation is in [the shared layout](../src/layouts/Layout.astro).
 
 ## Markdown, files, and paths

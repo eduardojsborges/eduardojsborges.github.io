@@ -37,6 +37,14 @@ Use **Add file → Upload files** in `public/images/` or `public/files/`. Prefer
 
 Edit `src/data/profile.ts` to change your biography, role, affiliations, research interests, tools, email, or social links. This is the single central profile file. Keep the surrounding quotes and commas intact. To update the CV without changing links, replace `public/files/Eduardo_Borges_CV.pdf` with a file of the same name.
 
+### Change colours
+
+Edit **[src/styles/theme.css](src/styles/theme.css)**. All interface colour hex codes are together at the top, with separate Light mode and Dark mode palettes. Change a value, commit, and the site rebuilds automatically. No layout-code changes are needed.
+
+For example, `--dark-background` changes the main dark page surface, `--dark-sidebar` the sidebar, `--dark-panel` citation panels, and `--dark-accent` links/focus/active navigation. `--dark-accent-soft` is the matching selected/hover background. The `--light-*` settings control light mode independently. Comments explain the text, borders, controls, figure backing, and shadow settings. Keep accent/text colours readable against their backgrounds.
+
+The palette is used for both automatic system themes and the manual theme toggle; there is no duplicate dark hex palette to maintain. Original images and the favicon remain their own assets. Desktop portrait width is 75% of the sidebar width; mobile uses the compact header portrait. Sizing rules remain in `src/styles/global.css`.
+
 ### Restore an earlier version
 
 For a published mistake, revert the content commit through GitHub (or `git revert <commit>` locally). The resulting commit rebuilds and republishes the previous content. Do not delete the repository or rewrite history.

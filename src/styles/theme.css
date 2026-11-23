@@ -1,0 +1,93 @@
+/*
+ * COLOUR SETTINGS — edit the hex codes in this first section.
+ * Light and dark palettes are independent. Commit this file to publish changes.
+ * Keep text/accent colours readable against their background and soft accent.
+ * The rules below the palette select the appropriate colours automatically.
+ */
+@layer base {
+  :root {
+    /* LIGHT MODE */
+    --light-background: #fafafa;     /* Main page */
+    --light-sidebar: #f2f2f2;        /* Profile sidebar/header */
+    --light-panel: #f4f4f5;          /* Citation panels and inset content */
+    --light-text: #202024;           /* Headings and primary text */
+    --light-muted: #5b5b63;          /* Secondary text and metadata */
+    --light-border: #d6d6db;         /* Quiet separators */
+    --light-control: #85858e;        /* Button borders and link underlines */
+    --light-accent: #315cc9;         /* Links, active navigation, focus */
+    --light-accent-soft: #e9eefc;    /* Selected/hover background */
+
+    /* DARK MODE — neutral surfaces; colour is confined to accents */
+    --dark-background: #181818;
+    --dark-sidebar: #121212;
+    --dark-panel: #222222;
+    --dark-text: #eeeeee;
+    --dark-muted: #b4b4b4;
+    --dark-border: #3c3c3c;
+    --dark-control: #898989;
+    --dark-accent: #9ab6ff;
+    --dark-accent-soft: #272f46;
+
+    /* SHARED / PRINT */
+    --figure-background: #ffffff;   /* White backing for original paper figures */
+    --menu-shadow: #00000020;       /* Last two hex digits control transparency */
+    --print-background: #ffffff;
+    --print-text: #000000;
+    --print-muted: #333333;
+    --print-accent: #244a99;
+  }
+
+  /* Theme wiring — normally no edits needed below this line. */
+  :root {
+    color-scheme: light;
+    --bg: var(--light-background);
+    --sidebar: var(--light-sidebar);
+    --panel: var(--light-panel);
+    --text: var(--light-text);
+    --muted: var(--light-muted);
+    --line: var(--light-border);
+    --control: var(--light-control);
+    --accent: var(--light-accent);
+    --accent-soft: var(--light-accent-soft);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: var(--dark-background);
+      --sidebar: var(--dark-sidebar);
+      --panel: var(--dark-panel);
+      --text: var(--dark-text);
+      --muted: var(--dark-muted);
+      --line: var(--dark-border);
+      --control: var(--dark-control);
+      --accent: var(--dark-accent);
+      --accent-soft: var(--dark-accent-soft);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: var(--dark-background);
+    --sidebar: var(--dark-sidebar);
+    --panel: var(--dark-panel);
+    --text: var(--dark-text);
+    --muted: var(--dark-muted);
+    --line: var(--dark-border);
+    --control: var(--dark-control);
+    --accent: var(--dark-accent);
+    --accent-soft: var(--dark-accent-soft);
+  }
+
+  @media print {
+    :root, :root[data-theme] {
+      color-scheme: light;
+      --bg: var(--print-background);
+      --panel: var(--print-background);
+      --text: var(--print-text);
+      --muted: var(--print-muted);
+      --accent: var(--print-accent);
+      --accent-soft: var(--light-accent-soft);
+    }
+  }
+}
