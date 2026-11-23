@@ -53,31 +53,6 @@
   .theme-button:hover { background: var(--accent-soft); }
   .mobile-menu { display: none; }
   .main-column { min-width: 0; padding: 0 clamp(2rem, 5vw, 5rem); }
-  /* The page glow spans the viewport, including margins outside the site shell.
-     The opaque sidebar gets a matching layer behind its content. */
-  .sidebar, body { isolation: isolate; }
-  .sidebar { z-index: 1; }
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .sidebar::before, body::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background-image: radial-gradient(circle calc(var(--glow-size) / 2) at var(--cursor-x, -1000px) var(--cursor-y, -1000px), var(--glow-color) 0%, color-mix(in srgb, var(--glow-color) 50%, transparent) 45%, transparent 100%);
-      background-attachment: fixed;
-      opacity: 0;
-      transition: opacity .2s ease;
-    }
-    body::before { position: fixed; }
-    /* Stay aligned with the viewport even when the sidebar scrolls. */
-    @media (min-width: 981px) {
-      .sidebar { clip-path: inset(0); }
-      .sidebar::before { position: fixed; }
-    }
-    :root[data-cursor-glow] .sidebar::before, :root[data-cursor-glow] body::before { opacity: var(--glow-opacity); }
-  }
-  @media print { .sidebar::before, body::before { display: none; } }
   main { max-width: 58rem; margin: 0 auto; }
   .hero { padding: 3.75rem 0 3rem; }
   .hero-affiliation { color: var(--accent); font-size: .9375rem; margin-bottom: 1.25rem; }
@@ -190,11 +165,11 @@
   .news-archive h2 { font-size: 1.25rem; margin: .75rem 0; }
   /* Highlight individual entries without shifting their content or making
      the whole panel behave like a link. */
-  :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article) {
+  :where(.publication:has(a[href]), .project:has(a[href]), .news-list > article:has(a[href]), .news-archive > article:has(a[href])) {
     position: relative;
     isolation: isolate;
   }
-  :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article)::before {
+  :where(.publication:has(a[href]), .project:has(a[href]), .news-list > article:has(a[href]), .news-archive > article:has(a[href]))::before {
     content: '';
     position: absolute;
     inset: -.625rem;
@@ -207,17 +182,17 @@
     transition: opacity .16s ease, border-color .16s ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article):hover::before {
+    :where(.publication:has(a[href]), .project:has(a[href]), .news-list > article:has(a[href]), .news-archive > article:has(a[href])):hover::before {
       opacity: 1;
       border-color: color-mix(in srgb, var(--accent) var(--panel-highlight-border-strength), transparent);
     }
   }
-  :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article):focus-within::before {
+  :where(.publication:has(a[href]), .project:has(a[href]), .news-list > article:has(a[href]), .news-archive > article:has(a[href])):focus-within::before {
     opacity: 1;
     border-color: color-mix(in srgb, var(--accent) var(--panel-highlight-border-strength), transparent);
   }
   @media print {
-    :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article)::before { display: none; }
+    :where(.publication:has(a[href]), .project:has(a[href]), .news-list > article:has(a[href]), .news-archive > article:has(a[href]))::before { display: none; }
   }
   .muted { color: var(--muted); }
   .skip-link { position: fixed; left: 1rem; top: -100px; background: var(--text); color: var(--bg); padding: .75rem 1.25rem; z-index: 100; }

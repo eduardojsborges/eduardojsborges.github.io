@@ -16,7 +16,6 @@
     --light-control: #85858e;        /* Button borders and link underlines */
     --light-accent: #315cc9;         /* Links, active navigation, focus */
     --light-accent-soft: #e9eefc;    /* Selected/hover background */
-    --light-glow-opacity: .10;      /* Cursor spotlight: 0 = invisible, 1 = solid */
 
     /* DARK MODE — neutral surfaces; colour is confined to accents */
     --dark-background: #181818;
@@ -28,10 +27,8 @@
     --dark-control: #898989;
     --dark-accent: #9ab6ff;
     --dark-accent-soft: #272f46;
-    --dark-glow-opacity: .18;
 
     /* SHARED / PRINT */
-    --glow-size: 220px;            /* Spotlight diameter (110px radius) */
     --panel-highlight-strength: 6%; /* Accent tint on hovered content panels */
     --panel-highlight-border-strength: 28%;
     --figure-background: #ffffff;   /* White backing for original paper figures */
@@ -54,8 +51,6 @@
     --control: var(--light-control);
     --accent: var(--light-accent);
     --accent-soft: var(--light-accent-soft);
-    --glow-color: var(--accent);    /* Always follows the highlight colour */
-    --glow-opacity: var(--light-glow-opacity);
   }
 
   :root:not([data-theme="light"]) {
@@ -69,8 +64,6 @@
     --control: var(--dark-control);
     --accent: var(--dark-accent);
     --accent-soft: var(--dark-accent-soft);
-    --glow-color: var(--accent);
-    --glow-opacity: var(--dark-glow-opacity);
   }
 
   @media print {

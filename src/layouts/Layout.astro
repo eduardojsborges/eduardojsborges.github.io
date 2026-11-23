@@ -85,54 +85,6 @@ const nav = [
           updateLabel();
         });
       });
-      // Time-based easing feels the same on different refresh rates and stops at rest.
-      const glowMedia = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
-      const root = document.documentElement;
-      let glowFrame = 0;
-      let mouseX = 0;
-      let mouseY = 0;
-      let glowX = 0;
-      let glowY = 0;
-      let lastGlowTime = 0;
-      let glowInitialized = false;
-      function animateGlow(time: number) {
-        const elapsed = Math.min(time - lastGlowTime, 64);
-        lastGlowTime = time;
-        const ease = 1 - Math.exp(-elapsed / 55);
-        glowX += (mouseX - glowX) * ease;
-        glowY += (mouseY - glowY) * ease;
-        const settled = Math.hypot(mouseX - glowX, mouseY - glowY) < .2;
-        if (settled) { glowX = mouseX; glowY = mouseY; }
-        root.style.setProperty('--cursor-x', `${glowX}px`);
-        root.style.setProperty('--cursor-y', `${glowY}px`);
-        root.setAttribute('data-cursor-glow', '');
-        glowFrame = settled ? 0 : requestAnimationFrame(animateGlow);
-      }
-      function hideGlow() {
-        cancelAnimationFrame(glowFrame);
-        glowFrame = 0;
-        glowInitialized = false;
-        root.removeAttribute('data-cursor-glow');
-      }
-      document.addEventListener('pointermove', event => {
-        if (!glowMedia.matches || event.pointerType !== 'mouse') { hideGlow(); return; }
-        mouseX = event.clientX;
-        mouseY = event.clientY;
-        if (!glowInitialized) {
-          glowX = mouseX;
-          glowY = mouseY;
-          glowInitialized = true;
-        }
-        if (glowFrame) return;
-        lastGlowTime = performance.now();
-        glowFrame = requestAnimationFrame(animateGlow);
-      }, { passive: true });
-      document.documentElement.addEventListener('pointerleave', hideGlow);
-      document.addEventListener('pointerdown', event => { if (event.pointerType !== 'mouse') hideGlow(); }, { passive: true });
-      window.addEventListener('blur', hideGlow);
-      window.addEventListener('pagehide', hideGlow);
-      document.addEventListener('visibilitychange', () => { if (document.hidden) hideGlow(); });
-      glowMedia.addEventListener('change', hideGlow);
       const menu = document.querySelector<HTMLDetailsElement>('#mobile-menu');
       const menuTrigger = menu?.querySelector('summary');
       menu?.addEventListener('keydown', event => {
