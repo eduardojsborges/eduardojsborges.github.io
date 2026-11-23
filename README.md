@@ -47,6 +47,8 @@ Each new tab session starts in dark mode, independently of the operating system 
 
 The soft cursor spotlight automatically matches the highlight colour (`--dark-accent` / `--light-accent`), so changing that hex code updates the glow too. Adjust `--dark-glow-opacity` / `--light-glow-opacity` (0–1, initially `.18` / `.10`) for visibility, and `--glow-size` for diameter (initially `220px`, giving a `110px` radius). Set both opacity values to `0` to hide it. It follows mouse movement behind content with gentle inertia (55ms time constant), spans the full viewport including wide-screen margins, stops animating once settled, and fades away on pointer exit or window blur. Touch input, reduced-motion preferences, and printing disable the effect automatically.
 
+Content entries (publications, projects, research interests, news, experience, and awards) receive a subtle accent-coloured background and border on mouse hover or when a link/control inside has keyboard focus. Adjust `--panel-highlight-strength` and `--panel-highlight-border-strength` in `src/styles/theme.css` to change the intensity. The effect does not move content, add click targets, or change the cursor; touch devices have no hover effect, reduced motion removes transitions, and printing omits the highlight.
+
 ### Restore an earlier version
 
 For a published mistake, revert the content commit through GitHub (or `git revert <commit>` locally). The resulting commit rebuilds and republishes the previous content. Do not delete the repository or rewrite history.

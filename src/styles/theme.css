@@ -32,6 +32,8 @@
 
     /* SHARED / PRINT */
     --glow-size: 220px;            /* Spotlight diameter (110px radius) */
+    --panel-highlight-strength: 6%; /* Accent tint on hovered content panels */
+    --panel-highlight-border-strength: 28%;
     --figure-background: #ffffff;   /* White backing for original paper figures */
     --menu-shadow: #00000020;       /* Last two hex digits control transparency */
     --print-background: #ffffff;

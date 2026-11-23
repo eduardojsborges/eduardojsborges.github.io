@@ -188,6 +188,37 @@
   .news-archive { padding-bottom: 3rem; }
   .news-archive article { padding: 0 0 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--line); }
   .news-archive h2 { font-size: 1.25rem; margin: .75rem 0; }
+  /* Highlight individual entries without shifting their content or making
+     the whole panel behave like a link. */
+  :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article) {
+    position: relative;
+    isolation: isolate;
+  }
+  :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article)::before {
+    content: '';
+    position: absolute;
+    inset: -.625rem;
+    z-index: -1;
+    pointer-events: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    opacity: 0;
+    background: color-mix(in srgb, var(--accent) var(--panel-highlight-strength), var(--bg));
+    transition: opacity .16s ease, border-color .16s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article):hover::before {
+      opacity: 1;
+      border-color: color-mix(in srgb, var(--accent) var(--panel-highlight-border-strength), transparent);
+    }
+  }
+  :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article):focus-within::before {
+    opacity: 1;
+    border-color: color-mix(in srgb, var(--accent) var(--panel-highlight-border-strength), transparent);
+  }
+  @media print {
+    :where(.publication, .project, .interest, .news-list > article, .timeline > article, .awards > article, .news-archive > article)::before { display: none; }
+  }
   .muted { color: var(--muted); }
   .skip-link { position: fixed; left: 1rem; top: -100px; background: var(--text); color: var(--bg); padding: .75rem 1.25rem; z-index: 100; }
   .skip-link:focus { top: 1rem; }
