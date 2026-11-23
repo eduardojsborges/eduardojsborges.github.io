@@ -6,7 +6,26 @@ venue: "24th International Conference on Robotics, Automation and Mobile Robotic
 venueShort: "ROBOT"
 summary: "A three-stream multimodal depth estimation architecture that fuses RGB, LiDAR and surface normals to deliver more accurate and structurally consistent depth maps for autonomous mobile robots."
 featured: true
-citation: "M. Abreu, E. Borges, L. Garrote, A. Mendes and U. J. Nunes (2025). \"DepthTriFusion: A Three-Stream RGB–LiDAR–Normal Pipeline for Depth Estimation.\" 24th International Conference on Robotics, Automation and Mobile Robotics (ROBOT), 2025."
+citation: >-
+    M. Abreu, E. Borges, L. Garrote, A. Mendes and U. J. Nunes (2025). \"DepthTriFusion: A Three-Stream RGB–LiDAR–Normal Pipeline for Depth Estimation.\" 24th International Conference on Robotics, Automation and Mobile Robotics (ROBOT), 2025.
+bibtex: |
+    @InProceedings{10.1007/978-3-032-30156-7_43,
+    author="Abreu, Manuel
+    and Borges, Eduardo
+    and Garrote, Lu{\'i}s
+    and Mendes, Abel
+    and Nunes, Urbano J.",
+    editor="Pinto, V{\'i}tor H.
+    and Lima, Jos{\'e}
+    and Dias, Andr{\'e}
+    and Ferre, Manuel",
+    title="DepthTriFusion: A Three-Stream RGB-LiDAR-Normal Pipeline for Depth Estimation",
+    booktitle="ROBOT 2025: Advances in Robotics",
+    year="2027",
+    publisher="Springer Nature Switzerland",
+    address="Cham",
+    pages="580--593",
+    isbn="978-3-032-30156-7"
 paperUrl: "https://doi.org/10.1007/978-3-032-30156-7_43"
 ---
 

@@ -6,7 +6,27 @@ venue: "24th International Conference on Robotics, Automation and Mobile Robotic
 venueShort: "ROBOT"
 summary: "A comprehensive evaluation of loss functions and backbone architectures for RGB and depth-based object re-identification on the KITTI-ReID dataset, highlighting the strengths of transformer models and contrastive losses for robust MOT pipelines."
 featured: false
-citation: "L. Garrote, E. Borges, A. Mendes and U. J. Nunes (2025). \"The Impact of Loss Functions and Architectures in Object Re-Identification: A Comparative Study.\" 24th International Conference on Robotics, Automation and Mobile Robotics (ROBOT), 2025."
+citation: >-
+    L. Garrote, E. Borges, A. Mendes and U. J. Nunes (2025). \"The Impact of Loss Functions and Architectures in Object Re-Identification: A Comparative Study.\" 24th International Conference on Robotics, Automation and Mobile Robotics (ROBOT), 2025.
+bibtex: |
+    @InProceedings{10.1007/978-3-032-30156-7_38,
+    author="Garrote, Lu{\'i}s
+    and Borges, Eduardo
+    and Mendes, Abel
+    and Nunes, Urbano J.",
+    editor="Pinto, V{\'i}tor H.
+    and Lima, Jos{\'e}
+    and Dias, Andr{\'e}
+    and Ferre, Manuel",
+    title="The Impact of Loss Functions and Architectures in Object Re-identification: A Comparative Study",
+    booktitle="ROBOT 2025: Advances in Robotics",
+    year="2027",
+    publisher="Springer Nature Switzerland",
+    address="Cham",
+    pages="514--528",
+    isbn="978-3-032-30156-7"
+    }
+
 paperUrl: "https://doi.org/10.1007/978-3-032-30156-7_38"
 ---
 

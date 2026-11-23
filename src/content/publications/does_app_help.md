@@ -6,7 +6,8 @@ venue: "2026 IEEE 35th International Conference on Robot and Human Interactive C
 venueShort: "RO-MAN"
 summary: "This work presents a systematic study of image-based ReID in online 3D MOT, utilizing a lightweight projection-based framework to decouple geometric and appearance modeling for mobile robots."
 featured: true
-citation: "@INPROCEEDINGS{borges2026does,
+bibtex: |
+  @INPROCEEDINGS{borges2026does,
   author={Borges, Eduardo and Garrote, Luís and Nunes, Urbano J.},
   booktitle={2026 IEEE 35th International Conference on Robot and Human Interactive Communication (RO-MAN)}, 
   title={Does Appearance Help? A Systematic Study of Image-Based Re-Identification in Online 3D Multi-Pedestrian Tracking}, 
@@ -16,7 +17,9 @@ citation: "@INPROCEEDINGS{borges2026does,
   pages={1426-1433},
   keywords={Modeling;Tracking;Printing;Signal detection;Architecture;Computer architecture;Conferences;Object tracking;Pedestrians;Costing;Multi-Pedestrian Tracking;Multi-Object Tracking;Object Re-Identification;Tracking-by-Detection},
   doi={10.1109/RO-MAN72286.2026.11714712}}
-"
+citation: >-
+  E. Borges, L. Garrote and U. J. Nunes, "Does Appearance Help? A Systematic Study of Image-Based Re-Identification in Online 3D Multi-Pedestrian Tracking," 2026 IEEE 35th International Conference on Robot and Human Interactive Communication (RO-MAN), Kitakyushu, Japan, 2026, pp. 1426-1433, doi: 10.1109/RO-MAN72286.2026.11714712.
+  keywords: {Modeling;Tracking;Printing;Signal detection;Architecture;Computer architecture;Conferences;Object tracking;Pedestrians;Costing;Multi-Pedestrian Tracking;Multi-Object Tracking;Object Re-Identification;Tracking-by-Detection},
 paperUrl: "https://doi.org/10.1109/RO-MAN72286.2026.11714712"
 ---
 

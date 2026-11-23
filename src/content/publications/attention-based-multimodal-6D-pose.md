@@ -6,7 +6,10 @@ venue: "2026 IEEE International Conference on Autonomous Robot Systems and Compe
 venueShort: "ICARSC"
 summary: "This paper presents a multimodal architecture for 6D pose estimation that combines RGB, depth maps, and 3D point clouds to improve robustness in such conditions."
 featured: true
-citation: "@INPROCEEDINGS{abreu2026attention,
+citation: >-
+  M. Abreu, E. Borges, J. Perdiz, L. Garrote, A. Mendes and U. J. Nunes, \"Attention-Based Multimodal Fusion for Robust 6D Pose Estimation in Cluttered Industrial Environments,\" 2026 IEEE International Conference on Autonomous Robot Systems and Competitions (ICARSC), Barcelos, Portugal, 2026, pp. 124-131, doi: 10.1109/ICARSC70216.2026.11523333. keywords: {Modeling;Clouds;Pose estimation;Distance measurement;Cameras;Laser radar;Printing;Measurement;Conferences;Annotations;6D Pose Estimation;Object Detection;Deep Learning;Autonomous Mobile Robots (AMRs)},
+bibtex: |
+  @INPROCEEDINGS{abreu2026attention,
   author={Abreu, Manuel and Borges, Eduardo and Perdiz, João and Garrote, Luís and Mendes, Abel and Nunes, Urbano J.},
   booktitle={2026 IEEE International Conference on Autonomous Robot Systems and Competitions (ICARSC)}, 
   title={Attention-Based Multimodal Fusion for Robust 6D Pose Estimation in Cluttered Industrial Environments}, 
@@ -16,7 +19,6 @@ citation: "@INPROCEEDINGS{abreu2026attention,
   pages={124-131},
   keywords={Modeling;Clouds;Pose estimation;Distance measurement;Cameras;Laser radar;Printing;Measurement;Conferences;Annotations;6D Pose Estimation;Object Detection;Deep Learning;Autonomous Mobile Robots (AMRs)},
   doi={10.1109/ICARSC70216.2026.11523333}}
-"
 paperUrl: "https://doi.org/10.1109/ICARSC70216.2026.11523333"
 ---
 
