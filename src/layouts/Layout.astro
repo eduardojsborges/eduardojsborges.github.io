@@ -98,7 +98,7 @@ const nav = [
       function animateGlow(time: number) {
         const elapsed = Math.min(time - lastGlowTime, 64);
         lastGlowTime = time;
-        const ease = 1 - Math.exp(-elapsed / 110);
+        const ease = 1 - Math.exp(-elapsed / 55);
         glowX += (mouseX - glowX) * ease;
         glowY += (mouseY - glowY) * ease;
         const settled = Math.hypot(mouseX - glowX, mouseY - glowY) < .2;

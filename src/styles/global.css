@@ -53,13 +53,12 @@
   .theme-button:hover { background: var(--accent-soft); }
   .mobile-menu { display: none; }
   .main-column { min-width: 0; padding: 0 clamp(2rem, 5vw, 5rem); }
-  /* Separate background layers keep the spotlight behind all content.
-     Fixed background coordinates align it across both page surfaces. */
-  .sidebar, .main-column { isolation: isolate; }
+  /* The page glow spans the viewport, including margins outside the site shell.
+     The opaque sidebar gets a matching layer behind its content. */
+  .sidebar, body { isolation: isolate; }
   .sidebar { z-index: 1; }
-  .main-column { position: relative; }
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .sidebar::before, .main-column::before {
+    .sidebar::before, body::before {
       content: '';
       position: absolute;
       inset: 0;
@@ -70,14 +69,15 @@
       opacity: 0;
       transition: opacity .2s ease;
     }
+    body::before { position: fixed; }
     /* Stay aligned with the viewport even when the sidebar scrolls. */
     @media (min-width: 981px) {
       .sidebar { clip-path: inset(0); }
       .sidebar::before { position: fixed; }
     }
-    :root[data-cursor-glow] .sidebar::before, :root[data-cursor-glow] .main-column::before { opacity: var(--glow-opacity); }
+    :root[data-cursor-glow] .sidebar::before, :root[data-cursor-glow] body::before { opacity: var(--glow-opacity); }
   }
-  @media print { .sidebar::before, .main-column::before { display: none; } }
+  @media print { .sidebar::before, body::before { display: none; } }
   main { max-width: 58rem; margin: 0 auto; }
   .hero { padding: 3.75rem 0 3rem; }
   .hero-affiliation { color: var(--accent); font-size: .9375rem; margin-bottom: 1.25rem; }
