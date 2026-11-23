@@ -16,6 +16,8 @@
     --light-control: #85858e;        /* Button borders and link underlines */
     --light-accent: #315cc9;         /* Links, active navigation, focus */
     --light-accent-soft: #e9eefc;    /* Selected/hover background */
+    --light-glow-color: #315cc9;    /* Cursor spotlight */
+    --light-glow-opacity: .03;      /* 0 = invisible, 1 = solid */
 
     /* DARK MODE — neutral surfaces; colour is confined to accents */
     --dark-background: #181818;
@@ -27,8 +29,11 @@
     --dark-control: #898989;
     --dark-accent: #9ab6ff;
     --dark-accent-soft: #272f46;
+    --dark-glow-color: #9ab6ff;
+    --dark-glow-opacity: .07;
 
     /* SHARED / PRINT */
+    --glow-size: 600px;            /* Spotlight diameter */
     --figure-background: #ffffff;   /* White backing for original paper figures */
     --menu-shadow: #00000020;       /* Last two hex digits control transparency */
     --print-background: #ffffff;
@@ -38,7 +43,7 @@
   }
 
   /* Theme wiring — normally no edits needed below this line. */
-  :root {
+  :root[data-theme="light"] {
     color-scheme: light;
     --bg: var(--light-background);
     --sidebar: var(--light-sidebar);
@@ -49,24 +54,11 @@
     --control: var(--light-control);
     --accent: var(--light-accent);
     --accent-soft: var(--light-accent-soft);
+    --glow-color: var(--light-glow-color);
+    --glow-opacity: var(--light-glow-opacity);
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --bg: var(--dark-background);
-      --sidebar: var(--dark-sidebar);
-      --panel: var(--dark-panel);
-      --text: var(--dark-text);
-      --muted: var(--dark-muted);
-      --line: var(--dark-border);
-      --control: var(--dark-control);
-      --accent: var(--dark-accent);
-      --accent-soft: var(--dark-accent-soft);
-    }
-  }
-
-  :root[data-theme="dark"] {
+  :root:not([data-theme="light"]) {
     color-scheme: dark;
     --bg: var(--dark-background);
     --sidebar: var(--dark-sidebar);
@@ -77,6 +69,8 @@
     --control: var(--dark-control);
     --accent: var(--dark-accent);
     --accent-soft: var(--dark-accent-soft);
+    --glow-color: var(--dark-glow-color);
+    --glow-opacity: var(--dark-glow-opacity);
   }
 
   @media print {

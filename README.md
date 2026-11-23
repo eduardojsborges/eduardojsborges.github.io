@@ -43,7 +43,9 @@ Edit **[src/styles/theme.css](src/styles/theme.css)**. All interface colour hex 
 
 For example, `--dark-background` changes the main dark page surface, `--dark-sidebar` the sidebar, `--dark-panel` citation panels, and `--dark-accent` links/focus/active navigation. `--dark-accent-soft` is the matching selected/hover background. The `--light-*` settings control light mode independently. Comments explain the text, borders, controls, figure backing, and shadow settings. Keep accent/text colours readable against their backgrounds.
 
-The palette is used for both automatic system themes and the manual theme toggle; there is no duplicate dark hex palette to maintain. Original images and the favicon remain their own assets. Desktop portrait width is 75% of the sidebar width; mobile uses the compact header portrait. Sizing rules remain in `src/styles/global.css`.
+Each new tab session starts in dark mode, independently of the operating system and any old saved preference. The theme toggle remembers your choice through navigation and refreshes within that tab using `sessionStorage`. If browser storage is unavailable, each page starts dark. Original images and the favicon remain their own assets. Desktop portrait width is 75% of the sidebar width; mobile uses the compact header portrait. Sizing rules remain in `src/styles/global.css`.
+
+The soft cursor spotlight uses `--dark-glow-color` / `--light-glow-color` (hex codes), `--dark-glow-opacity` / `--light-glow-opacity` (0–1, initially `.07` / `.03`), and `--glow-size` (diameter, initially `600px`). Set both opacity values to `0` to hide it. It follows mouse movement behind content and fades away on pointer exit or window blur. Touch input, reduced-motion preferences, and printing disable the effect automatically.
 
 ### Restore an earlier version
 
