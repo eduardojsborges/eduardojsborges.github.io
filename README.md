@@ -48,6 +48,12 @@ Each new tab session starts in dark mode, independently of the operating system 
 
 Linked content entries (publications, projects, and news) receive a subtle accent-coloured background and border on mouse hover or when a link/control inside has keyboard focus. Adjust `--panel-highlight-strength` and `--panel-highlight-border-strength` in `src/styles/theme.css` to change the intensity. Research interests, experience, awards, and news without links stay unhighlighted. The effect does not move content, add click targets, or change the cursor; touch devices have no hover effect, reduced motion removes transitions, and printing omits the highlight.
 
+### Customize the tracking cursor
+
+Edit `--dark-reticle-color` and `--light-reticle-color` in [src/styles/theme.css](src/styles/theme.css). `--reticle-size` sets the normal box size, `--reticle-hover-size` sets its size over links and buttons, and `--reticle-transition` sets the expansion duration. Set the duration to `0ms` for instant expansion.
+
+The reticle uses the native pointer over selectable text, form fields, and while dragging. Publication and project entries use the expanded reticle on their existing links and controls. Touch, reduced motion, and forced colours also use the native pointer. To disable the reticle sitewide, remove `<TrackingCursor />` and its import from `src/layouts/Layout.astro`.
+
 ### Restore an earlier version
 
 For a published mistake, revert the content commit through GitHub (or `git revert <commit>` locally). The resulting commit rebuilds and republishes the previous content. Do not delete the repository or rewrite history.

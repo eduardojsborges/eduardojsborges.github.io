@@ -1,0 +1,140 @@
+<div class="tracking-cursor" aria-hidden="true" hidden>
+  <div class="tracking-cursor__brackets">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<script>
+  const reticle = document.querySelector<HTMLElement>('.tracking-cursor');
+  const desktopMouse = matchMedia('screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none)');
+  const root = document.documentElement;
+  const interactive = 'a[href], button, summary, [role="button"], [role="link"]';
+  const nativeControls = 'input, textarea, select, label, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="slider"], [role="spinbutton"], [role="scrollbar"], :disabled, [aria-disabled="true"], [draggable="true"]';
+  const selectable = 'p, h1, h2, h3, h4, h5, h6, li, dt, dd, blockquote, figcaption, pre, code, time, td, th, [data-native-cursor]';
+
+  if (reticle && CSS.supports('cursor', 'none')) {
+    const marker = reticle;
+    let point: { x: number; y: number } | null = null;
+
+    function hide() {
+      root.removeAttribute('data-tracking-cursor');
+      marker.hidden = true;
+      marker.removeAttribute('data-expanded');
+    }
+
+    function reset() {
+      point = null;
+      hide();
+    }
+
+    function render(target: Element | null) {
+      if (!point || !target || !desktopMouse.matches || target.closest(nativeControls)) {
+        hide();
+        return;
+      }
+
+      const clickable = Boolean(target.closest(interactive));
+      const containsText = Array.from(target.childNodes).some(node =>
+        node.nodeType === Node.TEXT_NODE && node.textContent?.trim()
+      );
+      if (!clickable && (target.closest(selectable) || containsText)) {
+        hide();
+        return;
+      }
+
+      marker.style.transform = `translate3d(${point.x}px, ${point.y}px, 0)`;
+      // Keep the native cursor if the component stylesheet did not load.
+      const wasHidden = marker.hidden;
+      marker.hidden = false;
+      if (wasHidden && getComputedStyle(marker).position !== 'fixed') {
+        hide();
+        return;
+      }
+      marker.toggleAttribute('data-expanded', clickable);
+      root.setAttribute('data-tracking-cursor', '');
+    }
+
+    function track(event: PointerEvent) {
+      if (event.pointerType !== 'mouse' || event.buttons || !desktopMouse.matches ||
+          event.clientX < 0 || event.clientY < 0 ||
+          event.clientX >= root.clientWidth || event.clientY >= root.clientHeight) {
+        reset();
+        return;
+      }
+
+      point = { x: event.clientX, y: event.clientY };
+      render(event.target instanceof Element ? event.target : null);
+    }
+
+    function refreshTarget() {
+      if (point) render(document.elementFromPoint(point.x, point.y));
+    }
+
+    document.addEventListener('pointermove', track, { passive: true });
+    document.addEventListener('pointerup', track, { passive: true });
+    document.addEventListener('pointerdown', reset, { passive: true });
+    document.addEventListener('pointercancel', reset);
+    root.addEventListener('pointerleave', reset);
+    document.addEventListener('scroll', refreshTarget, { capture: true, passive: true });
+    window.addEventListener('resize', reset);
+    window.addEventListener('blur', reset);
+    window.addEventListener('pagehide', reset);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) reset(); });
+    desktopMouse.addEventListener('change', reset);
+  }
+</script>
+
+<style is:global>
+  .tracking-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
+    pointer-events: none;
+    color: var(--reticle-color);
+  }
+
+  .tracking-cursor::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+  }
+
+  .tracking-cursor__brackets {
+    position: absolute;
+    width: var(--reticle-size);
+    height: var(--reticle-size);
+    transform: translate(-50%, -50%);
+    transition: width var(--reticle-transition) ease-out, height var(--reticle-transition) ease-out;
+  }
+
+  .tracking-cursor[data-expanded] .tracking-cursor__brackets {
+    width: var(--reticle-hover-size);
+    height: var(--reticle-hover-size);
+  }
+
+  .tracking-cursor__brackets span {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border: solid currentColor;
+    border-width: 0;
+  }
+
+  .tracking-cursor__brackets span:nth-child(1) { top: 0; left: 0; border-width: 1px 0 0 1px; }
+  .tracking-cursor__brackets span:nth-child(2) { top: 0; right: 0; border-width: 1px 1px 0 0; }
+  .tracking-cursor__brackets span:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+  .tracking-cursor__brackets span:nth-child(4) { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+  @media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+    html[data-tracking-cursor], html[data-tracking-cursor] :where(*) { cursor: none; }
+  }
+
+  @media not screen, (hover: none), (pointer: coarse), (pointer: none), (prefers-reduced-motion: reduce), (forced-colors: active) {
+    .tracking-cursor { display: none; }
+  }
+</style>

@@ -5,6 +5,7 @@ import '../styles/theme.css';
 import { profile } from '../data/profile';
 import { url } from '../lib/paths';
 import Icon from '../components/Icon.astro';
+import TrackingCursor from '../components/TrackingCursor.astro';
 interface Props { title?: string; description?: string; active?: string }
 const { title = 'Robotics & computer vision', description = profile.intro, active } = Astro.props;
 const nav = [
@@ -66,6 +67,7 @@ const nav = [
         <footer><span>© {new Date().getFullYear()} {profile.name}</span><a href={`mailto:${profile.email}`}>Email</a></footer>
       </div>
     </div>
+    <TrackingCursor />
     <script>
       const toggles = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
       function updateLabel() {
