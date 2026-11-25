@@ -12,6 +12,7 @@
   const desktopMouse = matchMedia('screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none)');
   const root = document.documentElement;
   const interactive = 'a[href], button, summary, [role="button"], [role="link"]';
+  const nativeReticleLink = '[data-reticle-native]';
   const followFactor = .18;
   const frameDuration = 1000 / 60;
   const handoffKey = 'portfolio:cursor-handoff';
@@ -72,7 +73,8 @@
     }
 
     function showAt(x: number, y: number, target: Element | null) {
-      if (!desktopMouse.matches || !Number.isFinite(x) || !Number.isFinite(y) ||
+      if (target?.closest(nativeReticleLink) || !desktopMouse.matches ||
+          !Number.isFinite(x) || !Number.isFinite(y) ||
           x < 0 || y < 0 || x >= root.clientWidth || y >= root.clientHeight) {
         reset();
         return;
@@ -113,7 +115,7 @@
           event.button !== 0 || !event.detail || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
       if ('pointerType' in event && event.pointerType !== 'mouse') return;
       const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null;
-      if (!link || link.origin !== location.origin || link.hasAttribute('download') ||
+      if (!link || link.matches(nativeReticleLink) || link.origin !== location.origin || link.hasAttribute('download') ||
           (link.target && link.target.toLowerCase() !== '_self')) return;
       if (link.pathname === location.pathname && link.search === location.search) return;
 
@@ -150,7 +152,7 @@
     }
 
     function refreshTarget() {
-      if (point) updateHover(document.elementFromPoint(point.x, point.y));
+      if (point) showAt(point.x, point.y, document.elementFromPoint(point.x, point.y));
     }
 
     function suspend() {
@@ -238,8 +240,10 @@
   @media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
     :root { --sidebar-cursor: var(--sidebar-cursor-dark, auto); }
     :root[data-theme="light"] { --sidebar-cursor: var(--sidebar-cursor-light, auto); }
-    .sidebar :where(.identity[href], .desktop-nav a[href], .mobile-panel nav a[href]) { cursor: var(--sidebar-cursor); }
-    html[data-tracking-cursor], html[data-tracking-cursor] :where(*) { cursor: none; }
+    /* The sidebar links use the browser's cursor image as their only reticle. */
+    [data-reticle-native] { cursor: var(--sidebar-cursor); }
+    html[data-tracking-cursor],
+    html[data-tracking-cursor] :where(:not([data-reticle-native], [data-reticle-native] *)) { cursor: none; }
   }
 
   @media not screen, (hover: none), (pointer: coarse), (pointer: none), (prefers-reduced-motion: reduce), (forced-colors: active) {
