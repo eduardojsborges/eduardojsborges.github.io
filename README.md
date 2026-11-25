@@ -29,9 +29,9 @@ Projects use `order` (lower first) and `featured` (up to three on the homepage).
 
 Use **Add file → Upload files** in `public/images/` or `public/files/`. Prefer lowercase filenames without spaces and optimised WebP/JPEG images, ideally below 300 KB for thumbnails.
 
-- Frontmatter image path: `thumbnail: "/images/my-figure.webp"`. File links inside Markdown bodies are also automatically prefixed for GitHub Pages. For citations, use inline `bibtex: |` rather than uploading a new `.bib` file.
-- In any Markdown body: `![Description](/images/my-figure.webp)` and `[Download](/files/my-file.pdf)`. The build prefixes local paths automatically.
-- External links use their complete `https://` address. Do not hardcode `/research-portfolio/` in content.
+- Frontmatter image path: `thumbnail: "/images/my-figure.webp"`. For citations, use inline `bibtex: |`.
+- In any Markdown body: `![Description](/images/my-figure.webp)` and `[Download](/files/my-file.pdf)`.
+- Use paths starting with `/` for site files and complete `https://` addresses for external links.
 
 ### Edit the profile or CV
 
@@ -67,7 +67,7 @@ pnpm install
 pnpm dev
 ```
 
-Open the printed URL, including `/research-portfolio/`. For production checks:
+Open the printed URL. For production checks:
 
 ```sh
 pnpm check
@@ -80,12 +80,12 @@ pnpm preview
 
 ## Deployment
 
-The intended public repository is `eduardojsborges/research-portfolio`. In **Settings → Pages**, choose **GitHub Actions** as the source. The included workflow checks pull requests and deploys successful `main` builds to `https://eduardojsborges.github.io/research-portfolio/`.
+The live site is `https://eduardojsborges.github.io/`, published from `eduardojsborges/eduardojsborges.github.io`. In **Settings → Pages**, use **GitHub Actions** as the source. The workflow checks pull requests and deploys successful `main` builds.
 
-The Astro `site` and `base` settings are in `astro.config.mjs`; the internal-link checker uses the same repository prefix. Change both if renaming the repository. Moving to the main root address is a separate migration.
+The production build generates redirects for the former `/research-portfolio/` pages and the original site's publication and CV pages. Keep major publication and project URLs stable after publishing.
 
 ## Provenance and maintenance
 
-Original layout and interaction code; no third-party portfolio template. Existing personal content, portrait, presentation figures, CV, and bibliography are migrated from `eduardojsborges/eduardojsborges.github.io` at commit `8473dcbe980595e5f0377e06de9d853c607847e9`. The original template's placeholder CV, sample publications, and stock assets are excluded. The CSCS citation now uses `paper_cscs_2025.bib`.
+Original layout and interaction code with no third-party portfolio template. Existing personal content, portrait, presentation figures, CV, and bibliography were migrated from the original website, now archived as `eduardojsborges/website-legacy`, at commit `8473dcbe980595e5f0377e06de9d853c607847e9`. The original template's placeholder CV, sample publications, and stock assets are excluded. The CSCS citation uses `paper_cscs_2025.bib`.
 
 See `ATTRIBUTION.md` for dependencies and asset licences. No analytics, tracking, remote fonts, CMS, or form backend is included. Review dependency updates through pull requests and run the checks before merging.

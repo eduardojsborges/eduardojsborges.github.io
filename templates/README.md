@@ -170,8 +170,7 @@ not Markdown options. Navigation is in [the shared layout](../src/layouts/Layout
 - Upload images to `public/images/` and PDFs/BibTeX to `public/files/`.
 - Use local metadata paths such as `/images/figure.webp` or `/files/paper.bib`.
 - Link fields accept full `http://`/`https://` URLs or site-local paths beginning
-  with `/`. Image/profile asset fields should use local paths. Never include the
-  `/research-portfolio/` prefix yourself.
+  with `/`. Image/profile asset fields should use local paths.
 - In Markdown bodies: `![Description](/images/figure.webp)` and
   `[Download slides](/files/slides.pdf)`. Headings, lists, emphasis, and links can
   be used where a body is rendered. There is no dedicated `slidesUrl`, `videoUrl`,

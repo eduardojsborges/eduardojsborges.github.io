@@ -23,7 +23,7 @@ try {
     const output = await html(page);
     assert.match(output, /href="https:\/\/example.com\/research"/);
     assert.match(output, /href="https:\/\/github.com\/eduardojsborges\/KITTI-ReID"/);
-    assert.match(output, /href="\/research-portfolio\/projects\/"/);
+    assert.match(output, /href="\/projects\/"/);
     assert.match(output, /A supplied plain-text citation\./);
     assert.match(output, /@misc\{workflow2099,\n  title = /);
     assert.match(output, /role="tablist"/);

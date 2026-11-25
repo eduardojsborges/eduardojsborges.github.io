@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
     "check": "astro check",
-    "build": "astro build && node scripts/check-links.mjs",
+    "build": "astro build && node scripts/legacy-urls.mjs && node scripts/check-links.mjs",
     "preview": "astro preview --host 127.0.0.1",
     "test": "node --test scripts/test-citations.mjs && node scripts/test-content.mjs"
   },
