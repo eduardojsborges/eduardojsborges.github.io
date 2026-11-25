@@ -12,11 +12,8 @@
   const desktopMouse = matchMedia('screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none)');
   const root = document.documentElement;
   const interactive = 'a[href], button, summary, [role="button"], [role="link"]';
-  const nativeReticleLink = '[data-reticle-native]';
   const followFactor = .18;
   const frameDuration = 1000 / 60;
-  const handoffKey = 'portfolio:cursor-handoff';
-  const handoffLifetime = 10_000;
 
   if (reticle && dot && brackets && CSS.supports('cursor', 'none')) {
     const marker = reticle;
@@ -27,15 +24,10 @@
     let bracketY = 0;
     let frame = 0;
     let lastFrameTime = 0;
-    let handoffExpires = 0;
-
-    function stopFollowing() {
-      cancelAnimationFrame(frame);
-      frame = 0;
-    }
 
     function reset() {
-      stopFollowing();
+      cancelAnimationFrame(frame);
+      frame = 0;
       point = null;
       root.removeAttribute('data-tracking-cursor');
       marker.hidden = true;
@@ -72,17 +64,17 @@
       marker.toggleAttribute('data-expanded', Boolean(control && !disabled));
     }
 
-    function showAt(x: number, y: number, target: Element | null) {
-      if (target?.closest(nativeReticleLink) || !desktopMouse.matches ||
-          !Number.isFinite(x) || !Number.isFinite(y) ||
-          x < 0 || y < 0 || x >= root.clientWidth || y >= root.clientHeight) {
+    function track(event: PointerEvent) {
+      if (event.pointerType !== 'mouse' || !desktopMouse.matches ||
+          event.clientX < 0 || event.clientY < 0 ||
+          event.clientX >= root.clientWidth || event.clientY >= root.clientHeight) {
         reset();
         return;
       }
 
-      point = { x, y };
-      place(center, x, y);
-      updateHover(target);
+      point = { x: event.clientX, y: event.clientY };
+      place(center, point.x, point.y);
+      updateHover(event.target instanceof Element ? event.target : null);
 
       if (marker.hidden) {
         bracketX = point.x;
@@ -102,64 +94,8 @@
       }
     }
 
-    function track(event: PointerEvent) {
-      if (event.pointerType !== 'mouse') {
-        leaveViewport();
-        return;
-      }
-      showAt(event.clientX, event.clientY, event.target instanceof Element ? event.target : null);
-    }
-
-    function saveHandoff(event: MouseEvent) {
-      if (!point || !desktopMouse.matches || !event.isTrusted || event.defaultPrevented ||
-          event.button !== 0 || !event.detail || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-      if ('pointerType' in event && event.pointerType !== 'mouse') return;
-      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null;
-      if (!link || link.matches(nativeReticleLink) || link.origin !== location.origin || link.hasAttribute('download') ||
-          (link.target && link.target.toLowerCase() !== '_self')) return;
-      if (link.pathname === location.pathname && link.search === location.search) return;
-
-      try {
-        const expires = Date.now() + handoffLifetime;
-        sessionStorage.setItem(handoffKey, JSON.stringify({
-          destination: link.href,
-          x: event.clientX,
-          y: event.clientY,
-          expires,
-        }));
-        handoffExpires = expires;
-      } catch { /* Storage can be unavailable. Pointer events still drive the reticle. */ }
-    }
-
-    function restoreHandoff() {
-      try {
-        const saved = sessionStorage.getItem(handoffKey);
-        if (!saved) return;
-        sessionStorage.removeItem(handoffKey);
-        const { destination, x, y, expires } = JSON.parse(saved);
-        if (destination !== location.href || !(expires > Date.now()) || document.hidden || !desktopMouse.matches) return;
-        if (typeof x !== 'number' || typeof y !== 'number') return;
-        showAt(x, y, document.elementFromPoint(x, y));
-      } catch { /* An unavailable or invalid handoff leaves the native pointer in place. */ }
-    }
-
-    function leaveViewport() {
-      if (handoffExpires) {
-        handoffExpires = 0;
-        try { sessionStorage.removeItem(handoffKey); } catch {}
-      }
-      reset();
-    }
-
     function refreshTarget() {
-      if (point) showAt(point.x, point.y, document.elementFromPoint(point.x, point.y));
-    }
-
-    function suspend() {
-      // Keep the outgoing cursor style through a link navigation. Resetting it
-      // during document teardown can leave the browser's arrow under a stationary mouse.
-      if (Date.now() < handoffExpires) stopFollowing();
-      else reset();
+      if (point) updateHover(document.elementFromPoint(point.x, point.y));
     }
 
     document.addEventListener('pointerover', track, { passive: true });
@@ -167,26 +103,13 @@
     document.addEventListener('pointerdown', track, { passive: true });
     document.addEventListener('pointerup', track, { passive: true });
     document.addEventListener('pointercancel', reset);
-    root.addEventListener('pointerleave', event => {
-      if (Date.now() < handoffExpires && event.clientX >= 0 && event.clientY >= 0 &&
-          event.clientX < root.clientWidth && event.clientY < root.clientHeight) return;
-      leaveViewport();
-    });
+    root.addEventListener('pointerleave', reset);
     document.addEventListener('scroll', refreshTarget, { capture: true, passive: true });
     window.addEventListener('resize', reset);
-    window.addEventListener('blur', suspend);
-    window.addEventListener('pagehide', suspend);
-    window.addEventListener('click', saveHandoff, { passive: true });
-    window.addEventListener('pageshow', event => {
-      if (event.persisted) {
-        handoffExpires = 0;
-        reset();
-      }
-      restoreHandoff();
-    });
-    document.addEventListener('visibilitychange', () => { if (document.hidden) suspend(); });
+    window.addEventListener('blur', reset);
+    window.addEventListener('pagehide', reset);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) reset(); });
     desktopMouse.addEventListener('change', reset);
-    restoreHandoff();
   }
 </script>
 
@@ -238,12 +161,7 @@
   .tracking-cursor__brackets span:nth-child(4) { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
 
   @media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
-    :root { --sidebar-cursor: var(--sidebar-cursor-dark, auto); }
-    :root[data-theme="light"] { --sidebar-cursor: var(--sidebar-cursor-light, auto); }
-    /* The sidebar links use the browser's cursor image as their only reticle. */
-    [data-reticle-native] { cursor: var(--sidebar-cursor); }
-    html[data-tracking-cursor],
-    html[data-tracking-cursor] :where(:not([data-reticle-native], [data-reticle-native] *)) { cursor: none; }
+    html[data-tracking-cursor], html[data-tracking-cursor] :where(*) { cursor: none; }
   }
 
   @media not screen, (hover: none), (pointer: coarse), (pointer: none), (prefers-reduced-motion: reduce), (forced-colors: active) {

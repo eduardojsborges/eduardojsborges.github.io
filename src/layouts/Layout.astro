@@ -2,7 +2,6 @@
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
 import '../styles/theme.css';
-import themePalette from '../styles/theme.css?raw';
 import { profile } from '../data/profile';
 import { url } from '../lib/paths';
 import Icon from '../components/Icon.astro';
@@ -10,12 +9,6 @@ import TrackingCursor from '../components/TrackingCursor.astro';
 interface Props { title?: string; description?: string; active?: string }
 const { title = 'Robotics & computer vision', description = profile.intro, active } = Astro.props;
 const canonical = new URL(Astro.url.pathname === '/404/' ? '/404.html' : Astro.url.pathname, Astro.site);
-function sidebarCursor(theme: 'dark' | 'light') {
-  const accent = themePalette.match(new RegExp(`--${theme}-accent:\\s*(#[0-9a-f]{3,8})\\s*;`, 'i'))?.[1];
-  if (!accent) return 'auto';
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path d="M7 .5H.5V7 M29 .5h6.5V7 M.5 29v6.5H7 M35.5 29v6.5H29" fill="none" stroke="${accent}"/><circle cx="18" cy="18" r="2" fill="${accent}"/></svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 18 18, auto`;
-}
 const nav = [
   { label: 'Home', href: '', id: 'home' },
   { label: 'Publications', href: 'publications/', id: 'publications' },
@@ -23,7 +16,7 @@ const nav = [
 ];
 ---
 <!doctype html>
-<html lang="en" data-theme="dark" style={{ '--sidebar-cursor-dark': sidebarCursor('dark'), '--sidebar-cursor-light': sidebarCursor('light') }}>
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -44,7 +37,7 @@ const nav = [
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="site-shell">
       <aside class="sidebar" aria-label="Profile and navigation">
-        <a class="identity" href={url()} aria-label="Eduardo Borges home" data-reticle-native>
+        <a class="identity" href={url()} aria-label="Eduardo Borges home">
           <img class="portrait" src={url(profile.portrait)} alt="Eduardo Borges" width="648" height="648" fetchpriority="high" />
           <div><span class="identity-name">{profile.name}</span><span class="identity-field">{profile.field}</span></div>
         </a>
@@ -53,7 +46,7 @@ const nav = [
         <details class="mobile-menu" id="mobile-menu">
           <summary>Menu <Icon name="menu" /></summary>
           <div class="mobile-panel">
-            <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined} data-reticle-native>{item.label}</a>)}</nav>
+            <nav aria-label="Mobile navigation">{nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}</nav>
             <a class="cv-link" href={url(profile.cv)}>Download CV <Icon name="download" size={18} /></a>
             <a class="email-link" href={`mailto:${profile.email}`}>Email</a>
             <div class="social-links">{profile.socials.map(social => <a href={social.url}>{social.label}</a>)}</div>
@@ -61,7 +54,7 @@ const nav = [
           </div>
         </details>
         <nav class="desktop-nav" aria-label="Main navigation">
-          {nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined} data-reticle-native>{item.label}</a>)}
+          {nav.map(item => <a href={url(item.href)} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}
         </nav>
         <a class="cv-link" href={url(profile.cv)}>Download CV <Icon name="download" size={16} /></a>
         <div class="sidebar-bottom">

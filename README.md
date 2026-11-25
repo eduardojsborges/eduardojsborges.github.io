@@ -52,7 +52,7 @@ Linked content entries (publications, projects, and news) receive a subtle accen
 
 The reticle matches the current theme's highlight colour (`--dark-accent` or `--light-accent`). In [src/styles/theme.css](src/styles/theme.css), `--reticle-size` sets the normal bracket size, `--reticle-hover-size` sets the size over links and buttons, and `--reticle-transition` sets the expansion duration. Set the duration to `0ms` for instant expansion.
 
-The dot follows the pointer immediately while the brackets ease toward it and stop animating at rest. The sidebar’s navigation links use a single static reticle drawn by the browser so it stays visible as pages load. Text selection, editing, and click behavior work normally. Publication and project entries use the expanded reticle on their existing links and controls. Touch, reduced motion, and forced colours keep the native pointer. To disable the reticle sitewide, remove `<TrackingCursor />` and its import from `src/layouts/Layout.astro`.
+The dot follows the pointer immediately while the brackets ease toward it and stop animating at rest. The reticle stays visible over text and throughout clicks. Text selection, editing, and click behavior work normally. Publication and project entries use the expanded reticle on their existing links and controls. Touch, reduced motion, and forced colours keep the native pointer. To disable the reticle sitewide, remove `<TrackingCursor />` and its import from `src/layouts/Layout.astro`.
 
 ### Restore an earlier version
 
